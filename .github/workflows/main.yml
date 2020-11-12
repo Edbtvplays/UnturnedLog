@@ -22,7 +22,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Update version
-      run: "sed -i \"s#<Version>3.0.0</Version>#<Version>${{ github.event.inputs.version }}</Version>#\" UnturnedLog.csproj"  
+      run: "sed -i \"s#<Version>1.0.0</Version>#<Version>${{ github.event.inputs.version }}</Version>#\" UnturnedLog.csproj"  
     - name: Build
       run: dotnet build UnturnedLog.csproj --configuration Release --no-restore
     - name: Push to NuGet
