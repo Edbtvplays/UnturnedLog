@@ -11,7 +11,7 @@
     <AssemblyName>Edbtvplays.UnturnedLog.Unturned</AssemblyName>
     <LangVersion>8</LangVersion>
     <Description>A library to Log Information inside a PostgresSQL Database</Description>
-    <PackageReleaseNotes>Inital Release</PackageReleaseNotes>
+    <PackageReleaseNotes>Update Config Yaml</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/Pustalorc/PlayerInfoLib</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
     <PackageProjectUrl>https://github.com/Pustalorc/PlayerInfoLib</PackageProjectUrl>
