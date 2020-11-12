@@ -1,6 +1,4 @@
-﻿using Autofac;
-using Microsoft.Extensions.Configuration;
-using OpenMod.API.Plugins;
+﻿using OpenMod.API.Plugins;
 using OpenMod.EntityFrameworkCore.Extensions;
 using Edbtvplays.UnturnedLog.Unturned.Database;
 
