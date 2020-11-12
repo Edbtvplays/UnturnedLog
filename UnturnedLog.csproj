@@ -4,21 +4,32 @@
     <TargetFramework>net461</TargetFramework>
     <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
     <PackageTags>openmod openmod-plugin unturned</PackageTags>
-    <RootNamespace>MyOpenModPlugin</RootNamespace>
+    <RootNamespace>Edbtvplays.UnturnedLog</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateNugetPackage>true</GenerateNugetPackage>
     <Product>Unturned Log</Product>
+    <LangVersion>8.0</LangVersion>
+  
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql" Version="4.1.5" />
+    <PackageReference Include="OpenMod.EntityFrameworkCore" Version="2.2.2" />
+    <PackageReference Include="OpenMod.UnityEngine.Redist" Version="2019.3.5" />
     <PackageReference Include="OpenMod.Unturned" Version="2.2.2" />
     <PackageReference Include="Legacy2CPSWorkaround" Version="1.0.0">
-      <PrivateAssets>All</PrivateAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net461" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="OpenMod.Unturned.Redist" Version="3.20.12.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
   </ItemGroup>
 
   <ItemGroup>

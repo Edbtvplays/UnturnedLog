@@ -1,6 +1,1 @@
-# See https://openmod.github.io/openmod-docs/development-guide/localization/
-# You can delete this file if you do not need translations
-
-plugin_events:
-  plugin_start: "Hello World"
-  plugin_stop: "Good bye :("
+timestamp_format: "{Span.Days}d {Span.Hours}h {Span.Minutes}m {Span.Seconds}s {Span.Milliseconds}ms"

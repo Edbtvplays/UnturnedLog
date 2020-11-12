@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnturnedLog", "UnturnedLog.csproj", "{48F3262B-CA6C-417D-98C9-0B4CA625C97A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48F3262B-CA6C-417D-98C9-0B4CA625C97A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48F3262B-CA6C-417D-98C9-0B4CA625C97A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48F3262B-CA6C-417D-98C9-0B4CA625C97A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48F3262B-CA6C-417D-98C9-0B4CA625C97A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6CF71975-7443-4F13-B5B6-F958C0A331BB}
+	EndGlobalSection
+EndGlobal

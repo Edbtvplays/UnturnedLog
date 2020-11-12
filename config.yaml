@@ -1,2 +1,4 @@
-# See https://openmod.github.io/openmod-docs/development-guide/configuration/
-# You can delete this file if you do not need a configuration
+database:
+  ConnectionStrings:
+    default: "Server=127.0.0.1; Database=openmod; Port=3306; User=root; Password=toor;" # See https://www.connectionstrings.com/mysql/ for more information on making ConnectionStrings
+steamWebApiKey: "" # Get your WebApiKey from https://steamcommunity.com/dev/apikey. Not setting one up simply will result in profile picture URLs not updating or being retrieved at all.

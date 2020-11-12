@@ -5,41 +5,77 @@ using Microsoft.Extensions.Logging;
 using Cysharp.Threading.Tasks;
 using OpenMod.Unturned.Plugins;
 using OpenMod.API.Plugins;
+using Edbtvplays.UnturnedLog.Unturned.Database;
+using SDG.Unturned;
+using Edbtvplays.UnturnedLog.Unturned.API.Classes;
+using Edbtvplays.UnturnedLog.Unturned.API.Services;
 
-// For more, visit https://openmod.github.io/openmod-docs/development-guide/making-your-first-plugin/
+[assembly: PluginMetadata("Edbtvplays.UnturnedLog", Author = "Edbtvplays",
+    DisplayName = "Unturned Log",
+    Website = "https://edbrook.site")]
 
-[assembly: PluginMetadata("Edbtvplays.UnturnedLog", DisplayName = "Unturned Log")]
-namespace MyOpenModPlugin
+
+namespace UnturnedLog
 {
-    public class MyOpenModPlugin : OpenModUnturnedPlugin
+    public class UnturnedLog : OpenModUnturnedPlugin
     {
         private readonly IConfiguration m_Configuration;
         private readonly IStringLocalizer m_StringLocalizer;
-        private readonly ILogger<MyOpenModPlugin> m_Logger;
+        private readonly ILogger<UnturnedLog> m_Logger;
+        private readonly UnturnedLogStaticDbContext m_DbContext;
+        private readonly IUnturnedLogRepository m_playerinfolib;
 
-        public MyOpenModPlugin(
+        public UnturnedLog(
             IConfiguration configuration, 
             IStringLocalizer stringLocalizer,
-            ILogger<MyOpenModPlugin> logger, 
+            ILogger<UnturnedLog> logger, 
+            UnturnedLogStaticDbContext dbcontext,
+            IUnturnedLogRepository playerinforepository,
             IServiceProvider serviceProvider) : base(serviceProvider)
+            
         {
             m_Configuration = configuration;
             m_StringLocalizer = stringLocalizer;
             m_Logger = logger;
+            m_DbContext = dbcontext;
+            m_playerinfolib = playerinforepository;
         }
 
         protected override async UniTask OnLoadAsync()
         {
-			// await UniTask.SwitchToMainThread(); uncomment if you have to access Unturned or UnityEngine APIs
-            m_Logger.LogInformation("Hello World!");
+			await UniTask.SwitchToMainThread(); 
+            m_Logger.LogInformation("UnturnedLog for Unturned by Edbtvplays was loaded correctly");
+
+            checkTPS().Forget();
 			
-			// await UniTask.SwitchToThreadPool(); // you can switch back to a different thread
+			await UniTask.SwitchToThreadPool(); 
         }
 
         protected override async UniTask OnUnloadAsync()
         {
-            // await UniTask.SwitchToMainThread(); uncomment if you have to access Unturned or UnityEngine APIs
-            m_Logger.LogInformation(m_StringLocalizer["plugin_events:plugin_stop"]);
+            m_Logger.LogInformation("UnturnedLog for Unturned by Edbtvplays was unloaded correctly");
+
+            await UniTask.SwitchToMainThread();
+        }
+
+        private async UniTask checkTPS()
+        {
+            while (IsComponentAlive)
+            {
+                var server = await m_playerinfolib.GetCurrentServerAsync() ??
+                             await m_playerinfolib.CheckAndRegisterCurrentServerAsync();
+
+                int tps = Provider.debugTPS;
+                m_DbContext.TPS.Add(new TPS
+                {
+                    Value = tps,
+                    ServerId = server.Id,
+                    Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
+                });
+
+                await m_DbContext.SaveChangesAsync();
+                await UniTask.Delay(2000);
+            }
         }
     }
 }
