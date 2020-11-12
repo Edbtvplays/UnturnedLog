@@ -8,7 +8,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateNugetPackage>true</GenerateNugetPackage>
     <Product>UnturnedLog</Product>
-    <AssemblyName>Edbtvplays.Unturned.Unturned</AssemblyName>
+    <AssemblyName>Edbtvplays.UnturnedLog.Unturned</AssemblyName>
     <LangVersion>8</LangVersion>
     <Description>A library to Log Information inside a PostgresSQL Database</Description>
     <PackageReleaseNotes>Inital Release</PackageReleaseNotes>
