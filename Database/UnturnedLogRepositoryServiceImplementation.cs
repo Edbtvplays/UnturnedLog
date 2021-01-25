@@ -21,9 +21,9 @@ namespace Edbtvplays.UnturnedLog.Unturned.Database
     [ServiceImplementation(Lifetime = ServiceLifetime.Scoped, Priority = Priority.Normal)]
     public class UnturnedLogRepositoryServiceImplementation : IUnturnedLogRepository
     {
-        private readonly UnturnedLogStaticDbContext m_DbContext;
+        private readonly UnturnedLogDbContext m_DbContext;
 
-        public UnturnedLogRepositoryServiceImplementation(UnturnedLogStaticDbContext dbContext)
+        public UnturnedLogRepositoryServiceImplementation(UnturnedLogDbContext dbContext)
         {
             m_DbContext = dbContext;
         }
@@ -71,17 +71,19 @@ namespace Edbtvplays.UnturnedLog.Unturned.Database
             return server != null;
         }
 
-        public async Task<Server> CheckAndRegisterCurrentServerAsync()
+        public async Task<Server> CheckAndRegisterCurrentServerAsync() // Registers the server on creations 
         {
             var server = await GetCurrentServerInternalAsync();
             if (server == null)
                 await m_DbContext.Servers.AddAsync(new Server
                 {
                     Instance = Provider.serverID,
-                    Name = Provider.serverName
+                    Name = Provider.serverName,
+                    IP = Provider.ip
                 });
             else
                 server.Name = Provider.serverName;
+                server.IP = Provider.ip;
 
             await m_DbContext.SaveChangesAsync();
 
@@ -96,6 +98,7 @@ namespace Edbtvplays.UnturnedLog.Unturned.Database
                 {
                     Instance = Provider.serverID,
                     Name = Provider.serverName
+                    IP = 
                 });
             else
                 server.Name = Provider.serverName;
@@ -128,6 +131,8 @@ namespace Edbtvplays.UnturnedLog.Unturned.Database
         {
             return FindMultiplePlayersInternal(searchTerm, searchMode).ToList();
         }
+
+
 
         private IQueryable<PlayerData> FindMultiplePlayersInternal(string searchTerm, UserSearchMode searchMode)
         {

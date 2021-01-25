@@ -2,7 +2,7 @@
 
 namespace Edbtvplays.UnturnedLog.Unturned.Database
 {
-    public class UnturnedLogdbContextFactory : OpenModDbContextFactory<UnturnedLogStaticDbContext>
+    public class UnturnedLogDbContextFactory : OpenModDbContextFactory<UnturnedLogDbContext>
     {
     }
 }

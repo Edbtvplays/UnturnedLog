@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Edbtvplays.UnturnedLog.Unturned.API.Classes
 {
-    public class PlayerData
+    public class PlayerData // Defines the classes for data to be accessed.
     {
-        [Column("Id", TypeName = "BIGINT UNSIGNED")]
-        [Key]
-        [Required]
+
+        // Player Information for Events disconnected amd connected
+        [Column("Id", TypeName = "BIGINT UNSIGNED")] [Key] [Required]
         public ulong Id { get; set; }
 
         [Required] [StringLength(64)] public string SteamName { get; set; }
@@ -18,19 +18,13 @@ namespace Edbtvplays.UnturnedLog.Unturned.API.Classes
 
         [Required] [StringLength(64)] public string ProfilePictureHash { get; set; }
 
-        [Column("LastQuestGroupId", TypeName = "BIGINT UNSIGNED")]
-        [Required]
-        [DefaultValue(0)]
+        [Column("LastQuestGroupId", TypeName = "BIGINT UNSIGNED")] [Required] [DefaultValue(0)]
         public ulong LastQuestGroupId { get; set; }
 
-        [Column("SteamGroup", TypeName = "BIGINT UNSIGNED")]
-        [Required]
-        [DefaultValue(0)]
+        [Column("SteamGroup", TypeName = "BIGINT UNSIGNED")] [Required] [DefaultValue(0)]
         public ulong SteamGroup { get; set; }
 
-        [Required]
-        [StringLength(64)]
-        [DefaultValue("N/A")]
+        [Required] [StringLength(64)] [DefaultValue("N/A")]
         public string SteamGroupName { get; set; }
 
         [Required] public string Hwid { get; set; }
@@ -41,7 +35,27 @@ namespace Edbtvplays.UnturnedLog.Unturned.API.Classes
 
         [Required] public DateTime LastLoginGlobal { get; set; }
 
+        // Server ID Foreign Key
         [Required] public int ServerId { get; set; }
+
+        // Player Statistics for Events
+        [Required] [DefaultValue(0)] public int Punishments { get; set; }
+
+        [Required] [DefaultValue(0)] public int PlayerKills { get; set; }
+
+        [Required] [DefaultValue(0)] public int ZombieKills { get; set; }
+
+        [Required] [DefaultValue(0)] public int Deaths { get; set; }
+
+        [Required] [DefaultValue(0)] public int Headshots { get; set; }
+
+        [Required] [DefaultValue(0)] public int NodesMined { get; set; }
+
+        [Required] [DefaultValue(0)] public int TreesCutdown { get; set; }
+
+        [Required] [DefaultValue(0)] public int TotalChatMessages { get; set; }
+
+
         public virtual Server Server { get; set; }
     }
 }

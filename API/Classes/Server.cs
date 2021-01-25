@@ -13,5 +13,8 @@ namespace Edbtvplays.UnturnedLog.Unturned.API.Classes
         [Required] [StringLength(128)] public string Instance { get; set; }
 
         [Required] [StringLength(50)] public string Name { get; set; }
+
+        // Server IP so the websocket knows what to connect to. 
+        [Required] public uint IP { get; set; }
     }
 }

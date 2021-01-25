@@ -8,7 +8,7 @@
       "version": "1.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\Edward brook\\source\\repos\\UnturnedLog\\UnturnedLog.csproj",
-        "projectName": "UnturnedLog",
+        "projectName": "Edbtvplays.UnturnedLog.Unturned",
         "projectPath": "C:\\Users\\Edward brook\\source\\repos\\UnturnedLog\\UnturnedLog.csproj",
         "packagesPath": "C:\\Users\\Edward brook\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Edward brook\\source\\repos\\UnturnedLog\\obj\\",
@@ -43,10 +43,20 @@
       "frameworks": {
         "net461": {
           "dependencies": {
+            "Fleck": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
             "Legacy2CPSWorkaround": {
               "suppressParent": "All",
               "target": "Package",
               "version": "[1.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.9, )"
             },
             "Microsoft.NETFramework.ReferenceAssemblies.net461": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -54,12 +64,24 @@
               "target": "Package",
               "version": "[1.0.0, )"
             },
+            "OpenMod.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[2.3.8, )"
+            },
+            "OpenMod.UnityEngine.Redist": {
+              "target": "Package",
+              "version": "[2019.3.5, )"
+            },
             "OpenMod.Unturned": {
               "target": "Package",
-              "version": "[2.2.2, )"
+              "version": "[2.3.8, )"
+            },
+            "OpenMod.Unturned.Redist": {
+              "target": "Package",
+              "version": "[3.20.12.2, )"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.405\\RuntimeIdentifierGraph.json"
         }
       }
     }

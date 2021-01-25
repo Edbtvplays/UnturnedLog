@@ -9,6 +9,8 @@ using Edbtvplays.UnturnedLog.Unturned.Database;
 using SDG.Unturned;
 using Edbtvplays.UnturnedLog.Unturned.API.Classes;
 using Edbtvplays.UnturnedLog.Unturned.API.Services;
+using Fleck;
+using System.Collections.Generic;
 
 [assembly: PluginMetadata("Edbtvplays.UnturnedLog", Author = "Edbtvplays",
     DisplayName = "Unturned Log",
@@ -22,14 +24,19 @@ namespace UnturnedLog
         private readonly IConfiguration m_Configuration;
         private readonly IStringLocalizer m_StringLocalizer;
         private readonly ILogger<UnturnedLog> m_Logger;
-        private readonly UnturnedLogStaticDbContext m_DbContext;
+        private readonly UnturnedLogDbContext m_DbContext;
         private readonly IUnturnedLogRepository m_playerinfolib;
+
+        public WebSocketServer wServer;
+
+        public List<IWebSocketConnection> wSockets = new List<IWebSocketConnection>();
+
 
         public UnturnedLog(
             IConfiguration configuration, 
             IStringLocalizer stringLocalizer,
             ILogger<UnturnedLog> logger, 
-            UnturnedLogStaticDbContext dbcontext,
+            UnturnedLogDbContext dbcontext,
             IUnturnedLogRepository playerinforepository,
             IServiceProvider serviceProvider) : base(serviceProvider)
             
@@ -46,7 +53,9 @@ namespace UnturnedLog
 			await UniTask.SwitchToMainThread(); 
             m_Logger.LogInformation("UnturnedLog for Unturned by Edbtvplays was loaded correctly");
 
-            checkTPS().Forget();
+            //checkTPS().Forget();
+
+            websocket();
 			
 			await UniTask.SwitchToThreadPool(); 
         }
@@ -58,24 +67,59 @@ namespace UnturnedLog
             await UniTask.SwitchToMainThread();
         }
 
-        private async UniTask checkTPS()
+
+        public void websocket()
         {
-            while (IsComponentAlive)
+            // Websocket Server on localhost port 8080.
+            wServer = new WebSocketServer("ws://0.0.0.0:27081");
+
+            wServer.Start(wSocket =>
             {
-                var server = await m_playerinfolib.GetCurrentServerAsync() ??
-                             await m_playerinfolib.CheckAndRegisterCurrentServerAsync();
+                wSocket.OnOpen = () => Console.WriteLine("Open!");
 
-                int tps = Provider.debugTPS;
-                m_DbContext.TPS.Add(new TPS
-                {
-                    Value = tps,
-                    ServerId = server.Id,
-                    Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
-                });
+                wSocket.OnClose = () => Console.WriteLine("Close!");
 
-                await m_DbContext.SaveChangesAsync();
-                await UniTask.Delay(2000);
-            }
+                wSocket.OnMessage = message => HandleMessage(message);
+            });
         }
+
+
+        private void HandleMessage(string Message)
+        {
+            if (Message.ToLower() == "playercount") // Returns PlayerCount 
+            {
+                SendToClients(Provider.clients.Count.ToString());
+            }
+
+            // Need to return TPS. Aswell as playerCount. 
+        }
+
+        private void SendToClients(string Message)
+        {
+            wSockets.ForEach(wSocket => { wSocket.Send(Message); });
+        }
+
+
+        // Previous abandoned implementation for adding to a database, found to be to cluncky and way to compliments. 
+
+        //private async UniTask checkTPS()
+        //{
+        //    while (IsComponentAlive)
+        //    {
+        //        var server = await m_playerinfolib.GetCurrentServerAsync() ??
+        //                     await m_playerinfolib.CheckAndRegisterCurrentServerAsync();
+
+        //        int tps = Provider.debugTPS;
+        //        m_DbContext.TPS.Add(new TPS
+        //        {
+        //            Value = tps,
+        //            ServerId = server.Id,
+        //            Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
+        //        });
+
+        //        await m_DbContext.SaveChangesAsync();
+        //        await UniTask.Delay(2000);
+        //    }
+        //}
     }
 }

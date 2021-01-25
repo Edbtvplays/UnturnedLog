@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Edbtvplays.UnturnedLog.Migrations
 {
-    [DbContext(typeof(UnturnedLogStaticDbContext))]
+    [DbContext(typeof(UnturnedLogDbContext))]
     partial class UnturnedLogStaticDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
