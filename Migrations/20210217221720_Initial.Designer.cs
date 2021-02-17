@@ -3,33 +3,39 @@ using System;
 using Edbtvplays.UnturnedLog.Unturned.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Edbtvplays.UnturnedLog.Migrations
+namespace Edbtvplays.UnturnedLog.Unturned.Migrations
 {
     [DbContext(typeof(UnturnedLogDbContext))]
-    partial class UnturnedLogStaticDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210217221720_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.9")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("ProductVersion", "3.1.11")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Edbtvplays.UnturnedLog.Unturned.API.Classes.PlayerData", b =>
                 {
-                    b.Property<decimal>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("Id")
                         .HasColumnType("BIGINT UNSIGNED");
 
                     b.Property<string>("CharacterName")
                         .IsRequired()
-                        .HasColumnType("character varying(64)")
+                        .HasColumnType("varchar(64)")
                         .HasMaxLength(64);
+
+                    b.Property<int>("Deaths")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Headshots")
+                        .HasColumnType("int");
 
                     b.Property<string>("Hwid")
                         .IsRequired()
@@ -39,36 +45,54 @@ namespace Edbtvplays.UnturnedLog.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("LastLoginGlobal")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("datetime");
 
-                    b.Property<decimal>("LastQuestGroupId")
+                    b.Property<long>("LastQuestGroupId")
                         .HasColumnName("LastQuestGroupId")
                         .HasColumnType("BIGINT UNSIGNED");
 
+                    b.Property<int>("NodesMined")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlayerKills")
+                        .HasColumnType("int");
+
                     b.Property<string>("ProfilePictureHash")
                         .IsRequired()
-                        .HasColumnType("character varying(64)")
+                        .HasColumnType("varchar(64)")
                         .HasMaxLength(64);
 
-                    b.Property<int>("ServerId")
-                        .HasColumnType("integer");
+                    b.Property<int>("Punishments")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("SteamGroup")
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("SteamGroup")
                         .HasColumnName("SteamGroup")
                         .HasColumnType("BIGINT UNSIGNED");
 
                     b.Property<string>("SteamGroupName")
                         .IsRequired()
-                        .HasColumnType("character varying(64)")
+                        .HasColumnType("varchar(64)")
                         .HasMaxLength(64);
 
                     b.Property<string>("SteamName")
                         .IsRequired()
-                        .HasColumnType("character varying(64)")
+                        .HasColumnType("varchar(64)")
                         .HasMaxLength(64);
 
+                    b.Property<int>("TotalChatMessages")
+                        .HasColumnType("int");
+
                     b.Property<double>("TotalPlaytime")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double");
+
+                    b.Property<int>("TreesCutdown")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ZombieKills")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -81,40 +105,24 @@ namespace Edbtvplays.UnturnedLog.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("int");
+
+                    b.Property<long>("IP")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Instance")
                         .IsRequired()
-                        .HasColumnType("character varying(128)")
+                        .HasColumnType("varchar(128)")
                         .HasMaxLength(128);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
                     b.HasKey("Id");
 
                     b.ToTable("Edbtvplays_UnturnedLog_Servers");
-                });
-
-            modelBuilder.Entity("Edbtvplays.UnturnedLog.Unturned.API.Classes.TPS", b =>
-                {
-                    b.Property<long>("Timestamp")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("ServerId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Timestamp");
-
-                    b.ToTable("Edbtvplays_UnturnedLog_TPS");
                 });
 
             modelBuilder.Entity("Edbtvplays.UnturnedLog.Unturned.API.Classes.PlayerData", b =>

@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using OpenMod.API.Eventing;
@@ -259,8 +258,6 @@ namespace Edbtvplays.UnturnedLog
         }
 
 
-        [ItemNotNull]
-
         // Gets player profile picture 
         private async Task<string> GetProfilePictureHashAsync(CSteamID user)
         {
@@ -280,7 +277,6 @@ namespace Edbtvplays.UnturnedLog
                    "";
         }
 
-        [ItemNotNull]
 
         // Gets players steam group
         private static async Task<string> GetSteamGroupNameAsync(CSteamID groupId)
