@@ -9,7 +9,7 @@ namespace Edbtvplays.UnturnedLog.Unturned
         public void ConfigureContainer(IPluginServiceConfigurationContext context)
         {
             context.ContainerBuilder.AddEntityFrameworkCoreMySql();
-            context.ContainerBuilder.AddDbContext<UnturnedLogStaticDbContext>();
+            context.ContainerBuilder.AddDbContext<UnturnedLogDbContext>();
         }
     }
 }

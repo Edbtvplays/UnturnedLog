@@ -1,26 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Edward brook\\source\\repos\\UnturnedLog\\UnturnedLog.csproj": {}
+    "C:\\Code\\UnturnedLog\\UnturnedLog.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Edward brook\\source\\repos\\UnturnedLog\\UnturnedLog.csproj": {
-      "version": "1.0.0",
+    "C:\\Code\\UnturnedLog\\UnturnedLog.csproj": {
+      "version": "1.1.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Edward brook\\source\\repos\\UnturnedLog\\UnturnedLog.csproj",
+        "projectUniqueName": "C:\\Code\\UnturnedLog\\UnturnedLog.csproj",
         "projectName": "Edbtvplays.UnturnedLog.Unturned",
-        "projectPath": "C:\\Users\\Edward brook\\source\\repos\\UnturnedLog\\UnturnedLog.csproj",
-        "packagesPath": "C:\\Users\\Edward brook\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Edward brook\\source\\repos\\UnturnedLog\\obj\\",
+        "projectPath": "C:\\Code\\UnturnedLog\\UnturnedLog.csproj",
+        "packagesPath": "C:\\Users\\Edward Brook\\.nuget\\packages\\",
+        "outputPath": "C:\\Code\\UnturnedLog\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Edward brook\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Edward Brook\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net461"
@@ -31,6 +26,7 @@
         },
         "frameworks": {
           "net461": {
+            "targetAlias": "net461",
             "projectReferences": {}
           }
         },
@@ -42,6 +38,7 @@
       },
       "frameworks": {
         "net461": {
+          "targetAlias": "net461",
           "dependencies": {
             "Fleck": {
               "target": "Package",
@@ -66,22 +63,22 @@
             },
             "OpenMod.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[2.3.8, )"
+              "version": "[3.0.10, )"
             },
             "OpenMod.UnityEngine.Redist": {
               "target": "Package",
-              "version": "[2019.3.5, )"
+              "version": "[2019.4.10, )"
             },
             "OpenMod.Unturned": {
               "target": "Package",
-              "version": "[2.3.8, )"
+              "version": "[3.0.9, )"
             },
             "OpenMod.Unturned.Redist": {
               "target": "Package",
-              "version": "[3.20.12.2, )"
+              "version": "[3.20.14, )"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.405\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
         }
       }
     }

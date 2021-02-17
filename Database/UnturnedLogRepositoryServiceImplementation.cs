@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
@@ -97,8 +96,7 @@ namespace Edbtvplays.UnturnedLog.Unturned.Database
                 m_DbContext.Servers.Add(new Server
                 {
                     Instance = Provider.serverID,
-                    Name = Provider.serverName
-                    IP = 
+                    Name = Provider.serverName,
                 });
             else
                 server.Name = Provider.serverName;
@@ -126,7 +124,6 @@ namespace Edbtvplays.UnturnedLog.Unturned.Database
             return await FindMultiplePlayersInternal(searchTerm, searchMode).ToListAsync();
         }
 
-        [ItemNotNull]
         public List<PlayerData> FindMultiplePlayers(string searchTerm, UserSearchMode searchMode)
         {
             return FindMultiplePlayersInternal(searchTerm, searchMode).ToList();
