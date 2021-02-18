@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Cysharp.Threading.Tasks;
 using OpenMod.Unturned.Plugins;
 using OpenMod.API.Plugins;
+using OpenMod.EntityFrameworkCore.Extensions;
 using Edbtvplays.UnturnedLog.Unturned.Database;
 using SDG.Unturned;
 using Edbtvplays.UnturnedLog.Unturned.API.Classes;
@@ -25,19 +26,14 @@ namespace UnturnedLog
         private readonly IStringLocalizer m_StringLocalizer;
         private readonly ILogger<UnturnedLog> m_Logger;
         private readonly UnturnedLogDbContext m_DbContext;
-        private readonly IUnturnedLogRepository m_playerinfolib;
+        private readonly IUnturnedLogRepository m_UnturnedLogRepository;
 
         public WebSocketServer wServer;
 
         public List<IWebSocketConnection> wSockets = new List<IWebSocketConnection>();
 
 
-        public UnturnedLog(
-            IConfiguration configuration, 
-            IStringLocalizer stringLocalizer,
-            ILogger<UnturnedLog> logger, 
-            UnturnedLogDbContext dbcontext,
-            IUnturnedLogRepository playerinforepository,
+        public UnturnedLog(IConfiguration configuration, IStringLocalizer stringLocalizer, ILogger<UnturnedLog> logger, UnturnedLogDbContext dbcontext, IUnturnedLogRepository unturnedLogRepository,
             IServiceProvider serviceProvider) : base(serviceProvider)
             
         {
@@ -45,7 +41,7 @@ namespace UnturnedLog
             m_StringLocalizer = stringLocalizer;
             m_Logger = logger;
             m_DbContext = dbcontext;
-            m_playerinfolib = playerinforepository;
+            m_UnturnedLogRepository = unturnedLogRepository;
         }
 
         protected override async UniTask OnLoadAsync()
@@ -53,18 +49,21 @@ namespace UnturnedLog
 			await UniTask.SwitchToMainThread(); 
             m_Logger.LogInformation("UnturnedLog for Unturned by Edbtvplays was loaded correctly");
 
-            //checkTPS().Forget();
+            await m_DbContext.OpenModMigrateAsync();
+
+            await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
+
 
             websocket();
 			
 			await UniTask.SwitchToThreadPool(); 
         }
 
-        protected override async UniTask OnUnloadAsync()
+        protected override UniTask OnUnloadAsync()
         {
             m_Logger.LogInformation("UnturnedLog for Unturned by Edbtvplays was unloaded correctly");
 
-            await UniTask.SwitchToMainThread();
+            return UniTask.CompletedTask;
         }
 
 
