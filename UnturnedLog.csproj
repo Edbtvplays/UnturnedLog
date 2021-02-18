@@ -11,12 +11,12 @@
     <AssemblyName>Edbtvplays.UnturnedLog.Unturned</AssemblyName>
     <LangVersion>8</LangVersion>
     <Description>A library to Log Information inside a Mysql Database</Description>
-    <PackageReleaseNotes>Fixed Building for testing.</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed Migrations Not Running</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/Edbtvplays/UnturnedLog</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
     <PackageProjectUrl>https://github.com/Edbtvplays/UnturnedLog</PackageProjectUrl>
     <Copyright>Copyright © 2020 Edbtvplays</Copyright>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>Edbtvplays</Authors>
   </PropertyGroup>
     
