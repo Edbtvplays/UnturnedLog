@@ -4600,6 +4600,7 @@
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.6.1": [
       "Fleck >= 1.1.0",
+      "JetBrains.Annotations >= 2020.3.0",
       "Legacy2CPSWorkaround >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Tools >= 3.1.9",
       "Microsoft.NETFramework.ReferenceAssemblies.net461 >= 1.0.0",
@@ -4613,7 +4614,7 @@
     "C:\\Users\\Edward Brook\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "1.1.0",
+    "version": "1.1.1",
     "restore": {
       "projectUniqueName": "C:\\Code\\UnturnedLog\\UnturnedLog.csproj",
       "projectName": "Edbtvplays.UnturnedLog.Unturned",
@@ -4651,6 +4652,10 @@
           "Fleck": {
             "target": "Package",
             "version": "[1.1.0, )"
+          },
+          "JetBrains.Annotations": {
+            "target": "Package",
+            "version": "[2020.3.0, )"
           },
           "Legacy2CPSWorkaround": {
             "suppressParent": "All",
