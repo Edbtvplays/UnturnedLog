@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Code\\UnturnedLog\\UnturnedLog.csproj": {
-      "version": "1.1.0",
+      "version": "1.1.1",
       "restore": {
         "projectUniqueName": "C:\\Code\\UnturnedLog\\UnturnedLog.csproj",
         "projectName": "Edbtvplays.UnturnedLog.Unturned",
@@ -43,6 +43,10 @@
             "Fleck": {
               "target": "Package",
               "version": "[1.1.0, )"
+            },
+            "JetBrains.Annotations": {
+              "target": "Package",
+              "version": "[2020.3.0, )"
             },
             "Legacy2CPSWorkaround": {
               "suppressParent": "All",

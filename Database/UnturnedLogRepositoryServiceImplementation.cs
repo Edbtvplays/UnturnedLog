@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
@@ -70,19 +71,17 @@ namespace Edbtvplays.UnturnedLog.Unturned.Database
             return server != null;
         }
 
-        public async Task<Server> CheckAndRegisterCurrentServerAsync() // Registers the server on creations 
+        public async Task<Server> CheckAndRegisterCurrentServerAsync()
         {
             var server = await GetCurrentServerInternalAsync();
             if (server == null)
                 await m_DbContext.Servers.AddAsync(new Server
                 {
                     Instance = Provider.serverID,
-                    Name = Provider.serverName,
-                    IP = Provider.ip
+                    Name = Provider.serverName
                 });
             else
                 server.Name = Provider.serverName;
-                server.IP = Provider.ip;
 
             await m_DbContext.SaveChangesAsync();
 
@@ -96,7 +95,7 @@ namespace Edbtvplays.UnturnedLog.Unturned.Database
                 m_DbContext.Servers.Add(new Server
                 {
                     Instance = Provider.serverID,
-                    Name = Provider.serverName,
+                    Name = Provider.serverName
                 });
             else
                 server.Name = Provider.serverName;
@@ -128,8 +127,6 @@ namespace Edbtvplays.UnturnedLog.Unturned.Database
         {
             return FindMultiplePlayersInternal(searchTerm, searchMode).ToList();
         }
-
-
 
         private IQueryable<PlayerData> FindMultiplePlayersInternal(string searchTerm, UserSearchMode searchMode)
         {
@@ -202,6 +199,5 @@ namespace Edbtvplays.UnturnedLog.Unturned.Database
         {
             return m_DbContext.SaveChanges();
         }
-
     }
 }
