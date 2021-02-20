@@ -11,18 +11,17 @@
     <AssemblyName>Edbtvplays.UnturnedLog.Unturned</AssemblyName>
     <LangVersion>8</LangVersion>
     <Description>A library to Log Information inside a Mysql Database</Description>
-    <PackageReleaseNotes>Fixed Migrations Not Running</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed Server Query</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/Edbtvplays/UnturnedLog</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
     <PackageProjectUrl>https://github.com/Edbtvplays/UnturnedLog</PackageProjectUrl>
     <Copyright>Copyright © 2020 Edbtvplays</Copyright>
-    <Version>1.1.1</Version>
+    <Version>1.2.1</Version>
     <Authors>Edbtvplays</Authors>
   </PropertyGroup>
     
   <ItemGroup>
     <PackageReference Include="Fleck" Version="1.1.0" />
-    <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
