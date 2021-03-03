@@ -57,7 +57,7 @@ namespace Edbtvplays.UnturnedLog
             {
                 pData = BuildPlayerData(steamId.m_SteamID, player.SteamPlayer.playerID.characterName,
                     playerId.playerName, hwid, ip,
-                    pfpHash, questGroupId, playerId.group.m_SteamID, groupName, 0, 0,
+                    pfpHash, questGroupId, playerId.group.m_SteamID, groupName, 0,
                     DateTime.Now, server);
 
                 await m_UnturnedLogRepository.AddPlayerDataAsync(pData);
@@ -104,7 +104,7 @@ namespace Edbtvplays.UnturnedLog
             {
                 pData = BuildPlayerData(steamId.m_SteamID, player.SteamPlayer.playerID.characterName,
                     playerId.playerName, hwid, ip,
-                    pfpHash, player.Player.quests.groupID.m_SteamID, playerId.group.m_SteamID, groupName, 0, 0,
+                    pfpHash, player.Player.quests.groupID.m_SteamID, playerId.group.m_SteamID, groupName, 0,
                     DateTime.Now, server);
 
                 await m_UnturnedLogRepository.AddPlayerDataAsync(pData);
@@ -191,10 +191,10 @@ namespace Edbtvplays.UnturnedLog
         //{
         //    var player = @event.Player;
 
-        //    var EVE = @event.Stat;
+        //    var Event = @event.Stat;
 
 
-        //    if (@event.Player = 338393939)
+        //    if (Event = KILLS_PLAYERS)
         //    {
 
 
@@ -235,7 +235,7 @@ namespace Edbtvplays.UnturnedLog
 
         // Construct Player data returns a object of data which can then be sent to the database handler. This is for new data only.
         private static PlayerData BuildPlayerData(ulong steamId, string characterName, string steamName, string hwid, uint ip,
-            string profileHash, ulong questGroup, ulong steamGroup, string steamGroupName, double totalPlaytime, int Deaths,
+            string profileHash, ulong questGroup, ulong steamGroup, string steamGroupName, double totalPlaytime, 
             DateTime lastLogin, Server server) 
         {
             return new PlayerData
@@ -251,7 +251,6 @@ namespace Edbtvplays.UnturnedLog
                 SteamGroupName = steamGroupName,
                 TotalPlaytime = totalPlaytime,
                 LastLoginGlobal = lastLogin,
-                Deaths = Deaths, // Death count
                 ServerId = server.Id, // Sets server Id from the returned server object 
                 Server = server
             };
