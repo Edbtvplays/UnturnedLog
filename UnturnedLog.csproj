@@ -26,9 +26,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="OpenMod.EntityFrameworkCore" Version="3.0.10" />
+    <PackageReference Include="OpenMod.EntityFrameworkCore" Version="3.0.17" />
     <PackageReference Include="OpenMod.UnityEngine.Redist" Version="2019.4.10" />
-    <PackageReference Include="OpenMod.Unturned" Version="3.0.9" />
+    <PackageReference Include="OpenMod.Unturned" Version="3.0.17" />
     <PackageReference Include="Legacy2CPSWorkaround" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -36,7 +36,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="OpenMod.Unturned.Redist" Version="3.20.14" />
+    <PackageReference Include="OpenMod.Unturned.Redist" Version="3.21.8" />
   </ItemGroup>
 
   <ItemGroup>

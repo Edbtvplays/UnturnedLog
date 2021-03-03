@@ -921,13 +921,13 @@
           "lib/net45/NuGet.Versioning.dll": {}
         }
       },
-      "OpenMod.Analyzers/3.0.10": {
+      "OpenMod.Analyzers/3.0.17": {
         "type": "package",
         "dependencies": {
-          "OpenMod.API": "3.0.10"
+          "OpenMod.API": "3.0.17"
         }
       },
-      "OpenMod.API/3.0.10": {
+      "OpenMod.API/3.0.17": {
         "type": "package",
         "dependencies": {
           "Autofac": "6.1.0",
@@ -944,7 +944,7 @@
           "lib/net461/OpenMod.API.dll": {}
         }
       },
-      "OpenMod.Common/3.0.10": {
+      "OpenMod.Common/3.0.17": {
         "type": "package",
         "dependencies": {
           "dnlib": "3.3.2"
@@ -956,7 +956,7 @@
           "lib/net461/OpenMod.Common.dll": {}
         }
       },
-      "OpenMod.Core/3.0.10": {
+      "OpenMod.Core/3.0.17": {
         "type": "package",
         "dependencies": {
           "Cronos": "0.7.0",
@@ -974,10 +974,10 @@
           "NetEscapades.Configuration.Yaml": "2.1.0",
           "Nito.AsyncEx.Context": "5.1.0",
           "Nito.AsyncEx.Tasks": "5.1.0",
-          "OpenMod.API": "3.0.10",
-          "OpenMod.Analyzers": "3.0.10",
-          "OpenMod.Common": "3.0.10",
-          "OpenMod.NuGet": "3.0.10",
+          "OpenMod.API": "3.0.17",
+          "OpenMod.Analyzers": "3.0.17",
+          "OpenMod.Common": "3.0.17",
+          "OpenMod.NuGet": "3.0.17",
           "ReadLine": "2.0.1",
           "RuntimeNullables.Fody": "0.9.6",
           "Serilog": "2.10.0",
@@ -991,14 +991,14 @@
           "lib/net461/OpenMod.Core.dll": {}
         }
       },
-      "OpenMod.EntityFrameworkCore/3.0.10": {
+      "OpenMod.EntityFrameworkCore/3.0.17": {
         "type": "package",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "3.1.11",
           "MySql.Data.EntityFrameworkCore": "8.0.22",
           "NetEscapades.Configuration.Yaml": "2.1.0",
-          "OpenMod.API": "3.0.10",
-          "OpenMod.Core": "3.0.10"
+          "OpenMod.API": "3.0.17",
+          "OpenMod.Core": "3.0.17"
         },
         "compile": {
           "lib/netstandard2.0/OpenMod.EntityFrameworkCore.dll": {}
@@ -1007,11 +1007,11 @@
           "lib/netstandard2.0/OpenMod.EntityFrameworkCore.dll": {}
         }
       },
-      "OpenMod.Extensions.Economy.Abstractions/3.0.9": {
+      "OpenMod.Extensions.Economy.Abstractions/3.0.17": {
         "type": "package",
         "dependencies": {
-          "OpenMod.API": "3.0.9",
-          "OpenMod.Core": "3.0.9"
+          "OpenMod.API": "3.0.17",
+          "OpenMod.Core": "3.0.17"
         },
         "compile": {
           "lib/net461/OpenMod.Extensions.Economy.Abstractions.dll": {}
@@ -1020,11 +1020,11 @@
           "lib/net461/OpenMod.Extensions.Economy.Abstractions.dll": {}
         }
       },
-      "OpenMod.Extensions.Games.Abstractions/3.0.9": {
+      "OpenMod.Extensions.Games.Abstractions/3.0.17": {
         "type": "package",
         "dependencies": {
-          "OpenMod.API": "3.0.9",
-          "OpenMod.Core": "3.0.9"
+          "OpenMod.API": "3.0.17",
+          "OpenMod.Core": "3.0.17"
         },
         "compile": {
           "lib/net461/OpenMod.Extensions.Games.Abstractions.dll": {}
@@ -1033,7 +1033,7 @@
           "lib/net461/OpenMod.Extensions.Games.Abstractions.dll": {}
         }
       },
-      "OpenMod.NuGet/3.0.10": {
+      "OpenMod.NuGet/3.0.17": {
         "type": "package",
         "dependencies": {
           "NuGet.Configuration": "5.8.1",
@@ -1041,8 +1041,7 @@
           "NuGet.Packaging": "5.8.1",
           "NuGet.Protocol": "5.8.1",
           "NuGet.Resolver": "5.8.1",
-          "OpenMod.API": "3.0.10",
-          "OpenMod.Common": "3.0.10",
+          "OpenMod.Common": "3.0.17",
           "YamlDotNet": "9.1.4"
         },
         "compile": {
@@ -1052,13 +1051,13 @@
           "lib/net461/OpenMod.NuGet.dll": {}
         }
       },
-      "OpenMod.Runtime/3.0.9": {
+      "OpenMod.Runtime/3.0.17": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Hosting": "3.1.11",
-          "OpenMod.API": "3.0.9",
-          "OpenMod.Core": "3.0.9",
-          "OpenMod.NuGet": "3.0.9",
+          "OpenMod.API": "3.0.17",
+          "OpenMod.Core": "3.0.17",
+          "OpenMod.NuGet": "3.0.17",
           "Serilog.Extensions.Hosting": "3.1.0",
           "Serilog.Settings.Configuration": "3.1.0",
           "Serilog.Sinks.Async": "1.4.0",
@@ -1084,12 +1083,12 @@
           "lib/net461/UniTask.dll": {}
         }
       },
-      "OpenMod.UnityEngine/3.0.9": {
+      "OpenMod.UnityEngine/3.0.17": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Hosting": "3.1.11",
-          "OpenMod.Core": "3.0.9",
-          "OpenMod.Extensions.Games.Abstractions": "3.0.9",
+          "OpenMod.Core": "3.0.17",
+          "OpenMod.Extensions.Games.Abstractions": "3.0.17",
           "OpenMod.UniTask": "2019.2.1",
           "OpenMod.UnityEngine.Redist": "2019.4.10"
         },
@@ -1231,14 +1230,14 @@
           "lib/net461/UnityEngine.dll": {}
         }
       },
-      "OpenMod.Unturned/3.0.9": {
+      "OpenMod.Unturned/3.0.17": {
         "type": "package",
         "dependencies": {
-          "OpenMod.Extensions.Economy.Abstractions": "3.0.9",
-          "OpenMod.Extensions.Games.Abstractions": "3.0.9",
-          "OpenMod.Runtime": "3.0.9",
-          "OpenMod.UnityEngine": "3.0.9",
-          "OpenMod.Unturned.Redist": "3.20.14"
+          "OpenMod.Extensions.Economy.Abstractions": "3.0.17",
+          "OpenMod.Extensions.Games.Abstractions": "3.0.17",
+          "OpenMod.Runtime": "3.0.17",
+          "OpenMod.UnityEngine": "3.0.17",
+          "OpenMod.Unturned.Redist": "3.21.8"
         },
         "compile": {
           "lib/net461/OpenMod.Unturned.dll": {}
@@ -1247,7 +1246,7 @@
           "lib/net461/OpenMod.Unturned.dll": {}
         }
       },
-      "OpenMod.Unturned.Redist/3.20.14": {
+      "OpenMod.Unturned.Redist/3.21.8": {
         "type": "package",
         "compile": {
           "lib/net461/Assembly-CSharp-firstpass.dll": {},
@@ -3375,25 +3374,25 @@
         "nuget.versioning.nuspec"
       ]
     },
-    "OpenMod.Analyzers/3.0.10": {
-      "sha512": "jRN8qcx4NmJvbnm60bfLHjtcL7PIXvyc43kYmH7arQsAC4uysnQqu0EgI1BejYnksIXwLbXrps9vfyvIQGOVXg==",
+    "OpenMod.Analyzers/3.0.17": {
+      "sha512": "Ea8PP9ZPBw2do1gZ/JxsVnQLN3lrtXbcUaPX5KWKzcj3bpJifjokrR/MA1luKkKHLRrNbqZAJUUivHBn6v7tLQ==",
       "type": "package",
-      "path": "openmod.analyzers/3.0.10",
+      "path": "openmod.analyzers/3.0.17",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "analyzers/dotnet/cs/OpenMod.Analyzers.dll",
-        "openmod.analyzers.3.0.10.nupkg.sha512",
+        "openmod.analyzers.3.0.17.nupkg.sha512",
         "openmod.analyzers.nuspec",
         "tools/tools/install.ps1",
         "tools/tools/uninstall.ps1"
       ]
     },
-    "OpenMod.API/3.0.10": {
-      "sha512": "W/h5M8eoqXZDXtZgvP16h3EXcReRB25x9fRPFjff6gFTxv61IUNcGwkyHs0LCljK8fTRJSMSRUcvi8h+UOmo9w==",
+    "OpenMod.API/3.0.17": {
+      "sha512": "kTkvvsmo7HwU1yImjR2YV71l7slM789F358ePxYJguehHRA6vSz6xdsmlhTFrp39WGr7TpDa7BFD+dUbxmfxuQ==",
       "type": "package",
-      "path": "openmod.api/3.0.10",
+      "path": "openmod.api/3.0.17",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3403,14 +3402,14 @@
         "lib/netstandard2.0/OpenMod.API.dll",
         "lib/netstandard2.0/OpenMod.API.pdb",
         "lib/netstandard2.0/OpenMod.API.xml",
-        "openmod.api.3.0.10.nupkg.sha512",
+        "openmod.api.3.0.17.nupkg.sha512",
         "openmod.api.nuspec"
       ]
     },
-    "OpenMod.Common/3.0.10": {
-      "sha512": "TbbQWx82ucu7Lt8OMfX7uMLHo1tQATTvcCaHRRoaWy9Ui1vjMgz9cxoFi2yjIdW/a+EDeQZHVG0PTVLHlFg/6A==",
+    "OpenMod.Common/3.0.17": {
+      "sha512": "v5xjyTzVnCQ3puUgFtP3cZoALw7Z3u6tFmyuj8ADtTt+j7SfE/qzXrlWb9evOVJ4MsnlxL3hs1k1Wnqc5HY9Jg==",
       "type": "package",
-      "path": "openmod.common/3.0.10",
+      "path": "openmod.common/3.0.17",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3420,14 +3419,14 @@
         "lib/netstandard2.0/OpenMod.Common.dll",
         "lib/netstandard2.0/OpenMod.Common.pdb",
         "lib/netstandard2.0/OpenMod.Common.xml",
-        "openmod.common.3.0.10.nupkg.sha512",
+        "openmod.common.3.0.17.nupkg.sha512",
         "openmod.common.nuspec"
       ]
     },
-    "OpenMod.Core/3.0.10": {
-      "sha512": "qsLD+gG7NmTfnGOYsNyJqH3TXaIsVlABpbNqraXArVVcRBvogBgyZNBuXAaIGsYVza+sn8Ch9jvmEda2cgWV8Q==",
+    "OpenMod.Core/3.0.17": {
+      "sha512": "or6eW6YYYim/0wo+JvxyunmDf111ET2B8+UDTz6d9h0RXD96Dk6Vu+1/o2KmH0b6o+dnhRkKik6b9+9QmJw7uQ==",
       "type": "package",
-      "path": "openmod.core/3.0.10",
+      "path": "openmod.core/3.0.17",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3437,28 +3436,28 @@
         "lib/netstandard2.0/OpenMod.Core.dll",
         "lib/netstandard2.0/OpenMod.Core.pdb",
         "lib/netstandard2.0/OpenMod.Core.xml",
-        "openmod.core.3.0.10.nupkg.sha512",
+        "openmod.core.3.0.17.nupkg.sha512",
         "openmod.core.nuspec"
       ]
     },
-    "OpenMod.EntityFrameworkCore/3.0.10": {
-      "sha512": "wpy0/pY2LgZf2uWIGjsHrOS0AYWcxL63FPXCxqSRb/im/Zte+X6omYR1FkMymVY7IVD9vY9Z/uyv7M4KKikEWg==",
+    "OpenMod.EntityFrameworkCore/3.0.17": {
+      "sha512": "kDM3zFdzE5XE/046P1WdRcgy/buv9whLRC3eKQy4rR28vEOMlvloloWB+SQk6IaU0dXFWnG4hQnQotyeU1VbGw==",
       "type": "package",
-      "path": "openmod.entityframeworkcore/3.0.10",
+      "path": "openmod.entityframeworkcore/3.0.17",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "lib/netstandard2.0/OpenMod.EntityFrameworkCore.dll",
         "lib/netstandard2.0/OpenMod.EntityFrameworkCore.pdb",
         "lib/netstandard2.0/OpenMod.EntityFrameworkCore.xml",
-        "openmod.entityframeworkcore.3.0.10.nupkg.sha512",
+        "openmod.entityframeworkcore.3.0.17.nupkg.sha512",
         "openmod.entityframeworkcore.nuspec"
       ]
     },
-    "OpenMod.Extensions.Economy.Abstractions/3.0.9": {
-      "sha512": "GnDXKTiEwZbPCLOIvnpl7rZROHYcUsaw9QGPMA8lNVvyECIm2U6sdMMYOgVyoODIlpN1qEBkXMu2k/M/FDhemw==",
+    "OpenMod.Extensions.Economy.Abstractions/3.0.17": {
+      "sha512": "4tWTcC9j6FXX4aSAFIhavs2+Z0tIyO9dfxrofVMJHkWUX30T02fdqy/pUxE6LNTQrHxhA5DGddin0G1DzSOOTw==",
       "type": "package",
-      "path": "openmod.extensions.economy.abstractions/3.0.9",
+      "path": "openmod.extensions.economy.abstractions/3.0.17",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3468,14 +3467,14 @@
         "lib/netstandard2.0/OpenMod.Extensions.Economy.Abstractions.dll",
         "lib/netstandard2.0/OpenMod.Extensions.Economy.Abstractions.pdb",
         "lib/netstandard2.0/OpenMod.Extensions.Economy.Abstractions.xml",
-        "openmod.extensions.economy.abstractions.3.0.9.nupkg.sha512",
+        "openmod.extensions.economy.abstractions.3.0.17.nupkg.sha512",
         "openmod.extensions.economy.abstractions.nuspec"
       ]
     },
-    "OpenMod.Extensions.Games.Abstractions/3.0.9": {
-      "sha512": "S2KHGpAFwQvIylEc6nYY5LUJOtwLfLe/YFRcyxMvqFz117iGV0qhBMqLDZuAryPjDbo9l5b2wDH9n00Ga7Yl0g==",
+    "OpenMod.Extensions.Games.Abstractions/3.0.17": {
+      "sha512": "aU7Yq1FgVO0cVFFl93zWgWs6UvUwucmNT+T6Yk7EG3THZ7bgZKvnp3kA1REI01mxTRZ/eCvGb8eNFg/dABJDuw==",
       "type": "package",
-      "path": "openmod.extensions.games.abstractions/3.0.9",
+      "path": "openmod.extensions.games.abstractions/3.0.17",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3485,14 +3484,14 @@
         "lib/netstandard2.0/OpenMod.Extensions.Games.Abstractions.dll",
         "lib/netstandard2.0/OpenMod.Extensions.Games.Abstractions.pdb",
         "lib/netstandard2.0/OpenMod.Extensions.Games.Abstractions.xml",
-        "openmod.extensions.games.abstractions.3.0.9.nupkg.sha512",
+        "openmod.extensions.games.abstractions.3.0.17.nupkg.sha512",
         "openmod.extensions.games.abstractions.nuspec"
       ]
     },
-    "OpenMod.NuGet/3.0.10": {
-      "sha512": "Gjnzsf+N3VNRMjD6wwe2LzpOe/Y0p38O38tdEG4oLzefi9L/r2z9Al6FUlO0b4zRcb7hfJMejRdH4eZENH7+UQ==",
+    "OpenMod.NuGet/3.0.17": {
+      "sha512": "Z2gjQerSFrPON75nlej29Mm1NZrAR0EdlSQHtgSK5+uzoYWS41G+PL0Du0k8+ohRLuBjrFxY9ZEynoZ4ytATCg==",
       "type": "package",
-      "path": "openmod.nuget/3.0.10",
+      "path": "openmod.nuget/3.0.17",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3502,14 +3501,14 @@
         "lib/netstandard2.0/OpenMod.NuGet.dll",
         "lib/netstandard2.0/OpenMod.NuGet.pdb",
         "lib/netstandard2.0/OpenMod.NuGet.xml",
-        "openmod.nuget.3.0.10.nupkg.sha512",
+        "openmod.nuget.3.0.17.nupkg.sha512",
         "openmod.nuget.nuspec"
       ]
     },
-    "OpenMod.Runtime/3.0.9": {
-      "sha512": "q4+3oqhG9kHj3YFha1Q2pZMpyOI5/brFT0ns9X9mr0ovsfKe5YC31oG99PpY+7nRg2xQg3xss9yzLIBk642WXA==",
+    "OpenMod.Runtime/3.0.17": {
+      "sha512": "+lm0Cxxm6yFtEPMcbHXsS6NA1uv88eyQYwecJr/fVmmJ6uyRNZDNSG/79n+EJRvQ0zCROr1qrg1f/WKbnf9+Ug==",
       "type": "package",
-      "path": "openmod.runtime/3.0.9",
+      "path": "openmod.runtime/3.0.17",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3519,7 +3518,7 @@
         "lib/netstandard2.0/OpenMod.Runtime.dll",
         "lib/netstandard2.0/OpenMod.Runtime.pdb",
         "lib/netstandard2.0/OpenMod.Runtime.xml",
-        "openmod.runtime.3.0.9.nupkg.sha512",
+        "openmod.runtime.3.0.17.nupkg.sha512",
         "openmod.runtime.nuspec"
       ]
     },
@@ -3536,17 +3535,17 @@
         "openmod.unitask.nuspec"
       ]
     },
-    "OpenMod.UnityEngine/3.0.9": {
-      "sha512": "F7fEREvhm3pMtzNe90T20e0FrJHDAEchLukDU0iLQa+I74WZ0fIv0XULq1WP9URRgDw8le0wvxH9J57UURKh/A==",
+    "OpenMod.UnityEngine/3.0.17": {
+      "sha512": "fh67SijYuhbbHwM+BraXLG/2UH2kIzMoo2D4bWeBM41akACOIeJU6CGn/uo5jBe7ZgsR5PRzJjLFy/fE/J7IiQ==",
       "type": "package",
-      "path": "openmod.unityengine/3.0.9",
+      "path": "openmod.unityengine/3.0.17",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "lib/net461/OpenMod.UnityEngine.dll",
         "lib/net461/OpenMod.UnityEngine.pdb",
         "lib/net461/OpenMod.UnityEngine.xml",
-        "openmod.unityengine.3.0.9.nupkg.sha512",
+        "openmod.unityengine.3.0.17.nupkg.sha512",
         "openmod.unityengine.nuspec"
       ]
     },
@@ -3624,31 +3623,31 @@
         "openmod.unityengine.redist.nuspec"
       ]
     },
-    "OpenMod.Unturned/3.0.9": {
-      "sha512": "p1M9PB2nazNXQ/1SH+XPBiNy7lRKGynwF3Ce1fAnOZBYwh4g0y0Ug0zu+o53rLEzILzd0APKiquO2EQxazKA1g==",
+    "OpenMod.Unturned/3.0.17": {
+      "sha512": "2rDg5tc+qW7tlXT6C8G0YQMIAO1C4aGwT/pp+ZI/52IfUN10JgNobh/iXyrYqo6m3+bE6Z9RXl9udZDBKm074w==",
       "type": "package",
-      "path": "openmod.unturned/3.0.9",
+      "path": "openmod.unturned/3.0.17",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "lib/net461/OpenMod.Unturned.dll",
         "lib/net461/OpenMod.Unturned.pdb",
         "lib/net461/OpenMod.Unturned.xml",
-        "openmod.unturned.3.0.9.nupkg.sha512",
+        "openmod.unturned.3.0.17.nupkg.sha512",
         "openmod.unturned.nuspec"
       ]
     },
-    "OpenMod.Unturned.Redist/3.20.14": {
-      "sha512": "szbtA/n33ipxr6qktXGmPPv2Mqspglf31OGuCJIqahxIBKh8n/xM/HaKmLA8cS88anV1M2lY9CL5UEUbhKpMWQ==",
+    "OpenMod.Unturned.Redist/3.21.8": {
+      "sha512": "fbgCqjkLIHfwVWMarQx9lI9eMoEONYbK+nbrPbZtEu9kZO/+AskMT+EdvTOhCcu/5U4ISUSre21PCJaz5OIZeA==",
       "type": "package",
-      "path": "openmod.unturned.redist/3.20.14",
+      "path": "openmod.unturned.redist/3.21.8",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.txt",
         "lib/net461/Assembly-CSharp-firstpass.dll",
         "lib/net461/Assembly-CSharp.dll",
-        "openmod.unturned.redist.3.20.14.nupkg.sha512",
+        "openmod.unturned.redist.3.21.8.nupkg.sha512",
         "openmod.unturned.redist.nuspec"
       ]
     },
@@ -4604,10 +4603,10 @@
       "Legacy2CPSWorkaround >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Tools >= 3.1.9",
       "Microsoft.NETFramework.ReferenceAssemblies.net461 >= 1.0.0",
-      "OpenMod.EntityFrameworkCore >= 3.0.10",
+      "OpenMod.EntityFrameworkCore >= 3.0.17",
       "OpenMod.UnityEngine.Redist >= 2019.4.10",
-      "OpenMod.Unturned >= 3.0.9",
-      "OpenMod.Unturned.Redist >= 3.20.14"
+      "OpenMod.Unturned >= 3.0.17",
+      "OpenMod.Unturned.Redist >= 3.21.8"
     ]
   },
   "packageFolders": {
@@ -4676,7 +4675,7 @@
           },
           "OpenMod.EntityFrameworkCore": {
             "target": "Package",
-            "version": "[3.0.10, )"
+            "version": "[3.0.17, )"
           },
           "OpenMod.UnityEngine.Redist": {
             "target": "Package",
@@ -4684,11 +4683,11 @@
           },
           "OpenMod.Unturned": {
             "target": "Package",
-            "version": "[3.0.9, )"
+            "version": "[3.0.17, )"
           },
           "OpenMod.Unturned.Redist": {
             "target": "Package",
-            "version": "[3.20.14, )"
+            "version": "[3.21.8, )"
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"

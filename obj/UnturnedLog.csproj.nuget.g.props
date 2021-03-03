@@ -20,7 +20,7 @@
     <Import Project="$(NuGetPackageRoot)legacy2cpsworkaround\1.0.0\build\netstandard1.0\Legacy2CPSWorkaround.props" Condition="Exists('$(NuGetPackageRoot)legacy2cpsworkaround\1.0.0\build\netstandard1.0\Legacy2CPSWorkaround.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgOpenMod_Analyzers Condition=" '$(PkgOpenMod_Analyzers)' == '' ">C:\Users\Edward Brook\.nuget\packages\openmod.analyzers\3.0.10</PkgOpenMod_Analyzers>
+    <PkgOpenMod_Analyzers Condition=" '$(PkgOpenMod_Analyzers)' == '' ">C:\Users\Edward Brook\.nuget\packages\openmod.analyzers\3.0.17</PkgOpenMod_Analyzers>
     <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Users\Edward Brook\.nuget\packages\microsoft.entityframeworkcore.tools\3.1.9</PkgMicrosoft_EntityFrameworkCore_Tools>
   </PropertyGroup>
 </Project>

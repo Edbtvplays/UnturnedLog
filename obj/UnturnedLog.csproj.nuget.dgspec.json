@@ -67,7 +67,7 @@
             },
             "OpenMod.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[3.0.10, )"
+              "version": "[3.0.17, )"
             },
             "OpenMod.UnityEngine.Redist": {
               "target": "Package",
@@ -75,11 +75,11 @@
             },
             "OpenMod.Unturned": {
               "target": "Package",
-              "version": "[3.0.9, )"
+              "version": "[3.0.17, )"
             },
             "OpenMod.Unturned.Redist": {
               "target": "Package",
-              "version": "[3.20.14, )"
+              "version": "[3.21.8, )"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
