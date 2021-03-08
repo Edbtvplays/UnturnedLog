@@ -3,18 +3,20 @@ using System;
 using Edbtvplays.UnturnedLog.Unturned.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Edbtvplays.UnturnedLog.Unturned.Migrations
 {
     [DbContext(typeof(UnturnedLogDbContext))]
-    partial class UnturnedLogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210307230214_Update1")]
+    partial class Update1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.12")
+                .HasAnnotation("ProductVersion", "3.1.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Edbtvplays.UnturnedLog.Unturned.API.Classes.PlayerData", b =>

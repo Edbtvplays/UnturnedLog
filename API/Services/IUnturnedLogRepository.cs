@@ -110,6 +110,18 @@ namespace Edbtvplays.UnturnedLog.Unturned.API.Services
         void AddPlayerData(PlayerData playerData);
 
         /// <summary>
+        /// Adds an Event to the database asyncrionously
+        /// </summary>
+        /// <param name="playerEvents">The instance of the event data.</param>
+        void AddPlayerEvent(PlayerEvents playerEvents);
+
+        /// <summary>
+        /// Adds player data to the DB Asynchronously.
+        /// </summary>
+        /// <param name="playerEvents">The instance of the player's data.</param>
+        Task AddPlayerEventAsync(PlayerEvents playerEvents);
+
+        /// <summary>
         /// Saves all changes made in the context to the database.
         /// </summary>
         /// <returns>A task that represents the asynchronous save operation. The task result contains the number of state entries written to the database.</returns>

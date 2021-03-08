@@ -9,27 +9,35 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using OpenMod.API.Eventing;
 using OpenMod.API.Users;
+using SDG.Unturned;
 using OpenMod.Unturned.Players.Connections.Events;
 using OpenMod.Unturned.Players.Life.Events;
 using OpenMod.Unturned.Players.Stats.Events;
 using OpenMod.Unturned.Players.Chat.Events;
 using OpenMod.Unturned.Players.Bans.Events;
+using HarmonyLib;
 using Edbtvplays.UnturnedLog.Unturned.API.Classes;
 using Edbtvplays.UnturnedLog.Unturned.API.Classes.SteamWebApiClasses;
 using Edbtvplays.UnturnedLog.Unturned.API.Services;
 using Steamworks;
+using UnityEngine;
+using OpenMod.Unturned.Players;
 
 namespace Edbtvplays.UnturnedLog
-{
-    public class UserEventsListener : IEventListener<UnturnedPlayerConnectedEvent>, IEventListener<UnturnedPlayerDisconnectedEvent>, IEventListener<UnturnedPlayerDeathEvent>, IEventListener<UnturnedPlayerChattingEvent>, IEventListener<UnturnedPlayerBannedEvent> //, IEventListener<UnturnedPlayerStatIncrementedEvent>
+{   
+
+    public class UserEventsListener : IEventListener<UnturnedPlayerConnectedEvent>, IEventListener<UnturnedPlayerDisconnectedEvent>, IEventListener<UnturnedPlayerDeathEvent>, IEventListener<UnturnedPlayerChattingEvent>, IEventListener<UnturnedPlayerBannedEvent>, IEventListener<UnturnedPlayerStatIncrementedEvent>
     {
         private readonly IUnturnedLogRepository m_UnturnedLogRepository;
         private readonly IConfiguration m_Configuration;
 
+
+        // Initializing the Class
         public UserEventsListener(IUnturnedLogRepository UnturnedLogRepository, IConfiguration configuration)
         {
-            m_UnturnedLogRepository = UnturnedLogRepository;
-            m_Configuration = configuration;
+
+        m_UnturnedLogRepository = UnturnedLogRepository;
+        m_Configuration = configuration;
         }
 
 
@@ -55,9 +63,9 @@ namespace Edbtvplays.UnturnedLog
 
             if (pData == null) // If user does not exsist in database. 
             {
-                pData = BuildPlayerData(steamId.m_SteamID, player.SteamPlayer.playerID.characterName,
+                pData = EventDatabase.BuildPlayerData(steamId.m_SteamID, player.SteamPlayer.playerID.characterName,
                     playerId.playerName, hwid, ip,
-                    pfpHash, questGroupId, playerId.group.m_SteamID, groupName, 0,
+                    pfpHash, questGroupId, playerId.group.m_SteamID, groupName, 0, 0,
                     DateTime.Now, server);
 
                 await m_UnturnedLogRepository.AddPlayerDataAsync(pData);
@@ -82,6 +90,10 @@ namespace Edbtvplays.UnturnedLog
 
                 await m_UnturnedLogRepository.SaveChangesAsync();
             }
+
+            var Eventdisconnected = EventDatabase.BuildEventData(pData, "Connected", "", server);
+
+            await m_UnturnedLogRepository.AddPlayerEventAsync(Eventdisconnected);
         }
 
         // On player disconnected
@@ -100,14 +112,16 @@ namespace Edbtvplays.UnturnedLog
             var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
                          await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
+
             if (pData == null)
             {
-                pData = BuildPlayerData(steamId.m_SteamID, player.SteamPlayer.playerID.characterName,
+                pData = EventDatabase.BuildPlayerData(steamId.m_SteamID, player.SteamPlayer.playerID.characterName,
                     playerId.playerName, hwid, ip,
-                    pfpHash, player.Player.quests.groupID.m_SteamID, playerId.group.m_SteamID, groupName, 0,
+                    pfpHash, player.Player.quests.groupID.m_SteamID, playerId.group.m_SteamID, groupName, 0, 0,
                     DateTime.Now, server);
 
                 await m_UnturnedLogRepository.AddPlayerDataAsync(pData);
+
             }
             else
             {
@@ -120,101 +134,92 @@ namespace Edbtvplays.UnturnedLog
 
                 await m_UnturnedLogRepository.SaveChangesAsync();
             }
+
+            var Eventdisconnected = EventDatabase.BuildEventData(pData, "Disconnected", "", server);
+
+            await m_UnturnedLogRepository.AddPlayerEventAsync(Eventdisconnected);
         }
 
-        //  On Player Death also adds kills (temporary untill OM Updates) 
+
+        //  On Player Death also adds kills 
         public async Task HandleEventAsync(object sender, UnturnedPlayerDeathEvent @event)
         {
+
             var playerwhodied = @event.Player; // gets the player who died to update there information 
 
             // Gets current Player
-            var pDatadied = await m_UnturnedLogRepository.FindPlayerAsync(playerwhodied.SteamId.ToString(), UserSearchMode.FindById);
+            var player = await m_UnturnedLogRepository.FindPlayerAsync(playerwhodied.SteamId.ToString(), UserSearchMode.FindById);
+            var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
+                         await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
-            var DeathCount = pDatadied.Deaths + 1;
+            var EventDataDeath = EventDatabase.BuildEventData(player, "Death", "Reason: Unknown", server);
 
-            // Set the stuff to be saved into the pdata object to be saved into the database Only stuff that is modified here needs to be set
+            await m_UnturnedLogRepository.AddPlayerEventAsync(EventDataDeath);
 
-            pDatadied.Deaths = DeathCount; 
 
-            await m_UnturnedLogRepository.SaveChangesAsync(); // Save changes to the database for the player who died.
+            var instigator = @event.Instigator;
 
-            if (@event.Instigator != null ) // If the event instigator for the Death event, is a player. 
+            var instigatorplayer = await m_UnturnedLogRepository.FindPlayerAsync(instigator.ToString(), UserSearchMode.FindById);
+
+
+            if (instigatorplayer != null) // If the event instigator for the Death event, is a player. 
             {
-                var playerwhokilled = @event.Instigator; // Update the player who killed the player who died to update there playerkills. 
+                var EventDataKill = EventDatabase.BuildEventData(instigatorplayer, "Player Kill", "Player: Unknown", server);
 
-                var pDatakilled = await m_UnturnedLogRepository.FindPlayerAsync(playerwhokilled.ToString(), UserSearchMode.FindById);
-
-                var Killcount = pDatakilled.PlayerKills + 1;
+                await m_UnturnedLogRepository.AddPlayerEventAsync(EventDataKill);
             }
         }
-
-        // On player Headshot and death by zombie 
-        //public async Task HandleEventAsync(object sender, PlayerLife.onDamaged @event)
-        //{
-        //    var player = @event.Player;
-
-        //    var pData = await m_UnturnedLogRepository.FindPlayerAsync(player.SteamId.ToString(), UserSearchMode.FindById);
-
-        //    // Need to figure out a way to detect if a player is killed. This is very Much TODO.  
-        //    if (@event.Limb = Elimb.SKULL) // Check if the damage event is for the head  to update the headshot value. 
-        //    {
-        //        var Headshot = pData.PlayerKills + 1;
-        //        pData.Headshots = Headshot;
-
-        //        await m_UnturnedLogRepository.SaveChangesAsync(); // Save changes to the database.
-
-        //    }
-        //}
 
         // On player CHat message.
         public async Task HandleEventAsync(object sender, UnturnedPlayerChattingEvent @event)
         {
-            var player = @event.Player;
+            var eventplayer = @event.Player;
 
             // Gets current Player
-            var pData = await m_UnturnedLogRepository.FindPlayerAsync(player.SteamId.ToString(), UserSearchMode.FindById);
 
-            var ChatMessages = pData.TotalChatMessages + 1;
+            var player = await m_UnturnedLogRepository.FindPlayerAsync(eventplayer.SteamId.ToString(), UserSearchMode.FindById);
+            var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
+                         await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
+
+            var EventDataDeath = EventDatabase.BuildEventData(player, "Chat Message", "Content: " + @event.Message, server);
+
+            await m_UnturnedLogRepository.AddPlayerEventAsync(EventDataDeath);
 
             // Set the stuff to be saved into the pdata object to be saved into the database Only stuff that is modified here needs to be set
-
-            pData.TotalChatMessages = ChatMessages;
-
-            await m_UnturnedLogRepository.SaveChangesAsync(); // Save changes to the database.
         }
 
 
-        // Here i need to add UnturnedplayerstatIncrementedevent, i am waiting for a update to the API which hooks into the event to do this.
 
+        public async Task HandleEventAsync(object sender, UnturnedPlayerStatIncrementedEvent @event)
+        {
+            var player = @event.Player;
 
-        //public async Task HandleEventAsync(object sender, UnturnedPlayerStatIncrementedEvent @event)
-        //{
-        //    var player = @event.Player;
+            var Event = @event.Stat;
 
-        //    var Event = @event.Stat;
+            var Eventplayer = await m_UnturnedLogRepository.FindPlayerAsync(player.SteamId.ToString(), UserSearchMode.FindById);
+            var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
+                         await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
+            if (Event == EPlayerStat.KILLS_ANIMALS)
+            {
+                var PlayerEvent = EventDatabase.BuildEventData(Eventplayer, "Killed Animal", "Type: Unknown", server);
+                await m_UnturnedLogRepository.AddPlayerEventAsync(PlayerEvent);
 
-        //    if (Event = KILLS_PLAYERS)
-        //    {
+            } 
+            else if (Event == EPlayerStat.KILLS_ZOMBIES_NORMAL)
+            {
 
+                var PlayerEvent = EventDatabase.BuildEventData(Eventplayer, "Killed Zombie", "Type: Normal", server);
+                await m_UnturnedLogRepository.AddPlayerEventAsync(PlayerEvent);
+            }
+            else if (Event == EPlayerStat.HEADSHOTS)
+            {
 
+                var PlayerEvent = EventDatabase.BuildEventData(Eventplayer, "Headshot", "", server);
+                await m_UnturnedLogRepository.AddPlayerEventAsync(PlayerEvent);
+            }
 
-        //    }
-
-
-        //    var player = @event.Player;
-
-        //    // Gets current Player
-        //    var pData = await m_UnturnedLogRepository.FindPlayerAsync(player.SteamId.ToString(), UserSearchMode.FindById);
-
-        //    var ChatMessages = pData.TotalChatMessages + 1;
-
-        //    // Set the stuff to be saved into the pdata object to be saved into the database Only stuff that is modified here needs to be set
-
-        //    pData.TotalChatMessages = ChatMessages;
-
-        //    await m_UnturnedLogRepository.SaveChangesAsync(); // Save changes to the database.
-        //}
+        }
 
         public async Task HandleEventAsync(object sender, UnturnedPlayerBannedEvent @event)
         {
@@ -222,39 +227,15 @@ namespace Edbtvplays.UnturnedLog
 
             // Gets current Player
             var pData = await m_UnturnedLogRepository.FindPlayerAsync(player.ToString(), UserSearchMode.FindById);
+            var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
+                await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
-            var Punishments = pData.Punishments + 1;
+            var Eventpunnished = EventDatabase.BuildEventData(pData, @event.Name, @event.Reason + @event.Instigator, server);
 
-            // Set the stuff to be saved into the pdata object to be saved into the database Only stuff that is modified here needs to be set
+            await m_UnturnedLogRepository.AddPlayerEventAsync(Eventpunnished);
 
-            pData.Punishments = Punishments;
-
-            await m_UnturnedLogRepository.SaveChangesAsync(); // Save changes to the database.
         }
 
-
-        // Construct Player data returns a object of data which can then be sent to the database handler. This is for new data only.
-        private static PlayerData BuildPlayerData(ulong steamId, string characterName, string steamName, string hwid, uint ip,
-            string profileHash, ulong questGroup, ulong steamGroup, string steamGroupName, double totalPlaytime, 
-            DateTime lastLogin, Server server) 
-        {
-            return new PlayerData
-            {
-                Id = steamId,
-                CharacterName = characterName,
-                SteamName = steamName,
-                Hwid = hwid,
-                Ip = ip,
-                ProfilePictureHash = profileHash,
-                LastQuestGroupId = questGroup,
-                SteamGroup = steamGroup,
-                SteamGroupName = steamGroupName,
-                TotalPlaytime = totalPlaytime,
-                LastLoginGlobal = lastLogin,
-                ServerId = server.Id, // Sets server Id from the returned server object 
-                Server = server
-            };
-        }
 
 
         // Gets player profile picture 
@@ -293,7 +274,147 @@ namespace Edbtvplays.UnturnedLog
             var data = result.Substring(start, end - start);
             data = data.Trim();
             data = data.Replace("<![CDATA[", "").Replace("]]>", "");
-            return data; 
+            return data;
+        }
+
+        public async void ResourceKill(SDG.Unturned.Player player, ResourceAsset asset)
+        {
+            var instigatorplayer = await m_UnturnedLogRepository.FindPlayerAsync(player.ToString(), UserSearchMode.FindById);
+            var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
+             await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
+
+            var EventTreeCut = EventDatabase.BuildEventData(instigatorplayer, "Player Kill", "Player: Unknown", server);
+
+            await m_UnturnedLogRepository.AddPlayerEventAsync(EventTreeCut);
+        }
+    }
+
+    class EventDatabase
+    {
+        public static PlayerData BuildPlayerData(ulong steamId, string characterName, string steamName, string hwid, uint ip,
+            string profileHash, ulong questGroup, ulong steamGroup, string steamGroupName, double totalPlaytime, int Deaths,
+            DateTime lastLogin, Server server)
+        {
+            return new PlayerData
+            {
+                Id = steamId,
+                CharacterName = characterName,
+                SteamName = steamName,
+                Hwid = hwid,
+                Ip = ip,
+                ProfilePictureHash = profileHash,
+                LastQuestGroupId = questGroup,
+                SteamGroup = steamGroup,
+                SteamGroupName = steamGroupName,
+                TotalPlaytime = totalPlaytime,
+                LastLoginGlobal = lastLogin,
+                ServerId = server.Id, // Sets server Id from the returned server object 
+                Server = server
+            };
+        }
+
+        public static PlayerEvents BuildEventData(PlayerData player, string etype, string edata, Server server)
+        {
+            return new PlayerEvents
+            {
+                PlayerId = player.Id,
+                EventType = etype,
+                EventData = edata,
+                ServerId = server.Id,
+                Player = player,
+                Server = server
+            };
+        }
+    }
+
+    // Harmony patch class for some eventst hat are not avalible in the base api. Such as nodes cut down trees mind etc... 
+    public class UnturnedPatches
+    {
+
+        private readonly IUnturnedLogRepository m_UnturnedLogRepository;
+
+
+        public UnturnedPatches(IUnturnedLogRepository UnturnedLogRepository)
+        {
+            m_UnturnedLogRepository = UnturnedLogRepository;
+        }
+
+        // Subscribes to the Event
+        public  void Subscribe()
+        {
+            OnResourceKill += Events_OnResourceKill;
+            OnresourceDamagedEvent += Events_OnResourceDamaged;
+        }
+
+        // Unsubscribes to the Event
+        public void UnSubscribe()
+        {
+            OnResourceKill -= Events_OnResourceKill;
+            OnresourceDamagedEvent -= Events_OnResourceDamaged;
+        }
+
+        public async void Events_OnResourceKill(SDG.Unturned.Player player, ResourceAsset asset) 
+        {
+            var instigatorplayer = await m_UnturnedLogRepository.FindPlayerAsync(player.ToString(), UserSearchMode.FindById);
+            var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
+             await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
+
+            var EventTreeCut = EventDatabase.BuildEventData(instigatorplayer, "Tree Cut", "", server);
+
+            await m_UnturnedLogRepository.AddPlayerEventAsync(EventTreeCut);
+        }
+
+        public async void Events_OnResourceDamaged(SDG.Unturned.Player player, SDG.Unturned.ResourceSpawnpoint asset)
+        {
+            var instigatorplayer = await m_UnturnedLogRepository.FindPlayerAsync(player.ToString(), UserSearchMode.FindById);
+            var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
+             await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
+
+            var EventTreeCut = EventDatabase.BuildEventData(instigatorplayer, "Harvested Node", "", server);
+
+            await m_UnturnedLogRepository.AddPlayerEventAsync(EventTreeCut);
+        }
+
+
+        public delegate void ResourceKill(SDG.Unturned.Player player, ResourceAsset asset);
+
+        public static event ResourceKill? OnResourceKill;
+
+        public delegate void ResourceDamaged(SDG.Unturned.Player player, ResourceSpawnpoint asset);
+
+        public static event ResourceDamaged? OnresourceDamagedEvent;
+
+        [HarmonyPatch]
+        private class Patches
+        {
+            [HarmonyPatch(typeof(PlayerQuests), "trackTreeKill")]
+            [HarmonyPrefix]
+            private static void TrackResourceKill(PlayerQuests __instance, Guid treeGuid)
+            {
+                // You can get the resource asset from the guid
+                var asset = (ResourceAsset)Assets.find(treeGuid);
+
+                // The native player
+                SDG.Unturned.Player player = __instance.player;
+
+                OnResourceKill?.Invoke(player, asset);
+            }
+
+            private static void OnResourceDamaged(CSteamID instigatorSteamID, Transform objectTransform, ref ushort pendingTotalDamage, ref bool shouldAllow, EDamageOrigin damageOrigin)
+            {
+                // Get the node
+                if (!ResourceManager.tryGetRegion(objectTransform, out byte x, out byte y, out ushort index)) return;
+                ResourceSpawnpoint resourceDamaged = ResourceManager.getResourceSpawnpoint(x, y, index);
+
+                // Check if node is going to die.
+                if (pendingTotalDamage < resourceDamaged.health) return;
+
+
+                SDG.Unturned.Player player = PlayerTool.getPlayer(instigatorSteamID);
+
+                // Player mined a node
+                OnresourceDamagedEvent?.Invoke(player, resourceDamaged);
+            }
         }
     }
 }

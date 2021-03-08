@@ -190,6 +190,19 @@ namespace Edbtvplays.UnturnedLog.Unturned.Database
             m_DbContext.SaveChanges();
         }
 
+        public async Task AddPlayerEventAsync(PlayerEvents playerEvents)
+        {
+            await m_DbContext.Events.AddAsync(playerEvents);
+            await m_DbContext.SaveChangesAsync();
+        }
+
+        public void AddPlayerEvent(PlayerEvents playerEvents)
+        {
+            m_DbContext.Events.Add(playerEvents);
+            m_DbContext.SaveChanges();
+        }
+
+
         public async Task<int> SaveChangesAsync()
         {
             return await m_DbContext.SaveChangesAsync();

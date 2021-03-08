@@ -12,6 +12,7 @@ using Edbtvplays.UnturnedLog.Unturned.API.Classes;
 using Edbtvplays.UnturnedLog.Unturned.API.Services;
 using Fleck;
 using System.Collections.Generic;
+using Edbtvplays.UnturnedLog;
 
 [assembly: PluginMetadata("Edbtvplays.UnturnedLog", Author = "Edbtvplays",
     DisplayName = "Unturned Log",
@@ -27,75 +28,45 @@ namespace UnturnedLog
         private readonly ILogger<UnturnedLog> m_Logger;
         private readonly UnturnedLogDbContext m_DbContext;
         private readonly IUnturnedLogRepository m_UnturnedLogRepository;
+        private readonly UnturnedPatches m_UnturnedPatches;
 
-        public WebSocketServer wServer;
 
         public List<IWebSocketConnection> wSockets = new List<IWebSocketConnection>();
 
 
         public UnturnedLog(IConfiguration configuration, IStringLocalizer stringLocalizer, ILogger<UnturnedLog> logger, UnturnedLogDbContext dbcontext, IUnturnedLogRepository unturnedLogRepository,
-            IServiceProvider serviceProvider) : base(serviceProvider)
-            
+            IServiceProvider serviceProvider, UnturnedPatches unturnedpatches) : base(serviceProvider)
+
         {
             m_Configuration = configuration;
             m_StringLocalizer = stringLocalizer;
             m_Logger = logger;
             m_DbContext = dbcontext;
             m_UnturnedLogRepository = unturnedLogRepository;
+            m_UnturnedPatches = unturnedpatches;
         }
 
         protected override async UniTask OnLoadAsync()
         {
-			await UniTask.SwitchToMainThread(); 
+            await UniTask.SwitchToMainThread();
             m_Logger.LogInformation("UnturnedLog for Unturned by Edbtvplays was loaded correctly");
 
             await m_DbContext.OpenModMigrateAsync();
 
             await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
+            m_UnturnedPatches.Subscribe();
 
-            websocket();
-			
-			await UniTask.SwitchToThreadPool(); 
+            await UniTask.SwitchToThreadPool();
         }
 
         protected override UniTask OnUnloadAsync()
         {
             m_Logger.LogInformation("UnturnedLog for Unturned by Edbtvplays was unloaded correctly");
 
+            m_UnturnedPatches.UnSubscribe();
+
             return UniTask.CompletedTask;
-        }
-
-
-        public void websocket()
-        {
-            // Websocket Server on localhost port 8080.
-            wServer = new WebSocketServer("ws://0.0.0.0:27081");
-
-            wServer.Start(wSocket =>
-            {
-                wSocket.OnOpen = () => Console.WriteLine("Open!");
-
-                wSocket.OnClose = () => Console.WriteLine("Close!");
-
-                wSocket.OnMessage = message => HandleMessage(message);
-            });
-        }
-
-
-        private void HandleMessage(string Message)
-        {
-            if (Message.ToLower() == "playercount") // Returns PlayerCount 
-            {
-                SendToClients(Provider.clients.Count.ToString());
-            }
-
-            // Need to return TPS. Aswell as playerCount. 
-        }
-
-        private void SendToClients(string Message)
-        {
-            wSockets.ForEach(wSocket => { wSocket.Send(Message); });
         }
 
 

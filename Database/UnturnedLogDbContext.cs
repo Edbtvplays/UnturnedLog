@@ -9,6 +9,7 @@ namespace Edbtvplays.UnturnedLog.Unturned.Database
     {
         public DbSet<Server> Servers { get; set; }
         public DbSet<PlayerData> Players { get; set; }
+        public DbSet<PlayerEvents> Events { get; set; }
 
         public UnturnedLogDbContext(DbContextOptions<UnturnedLogDbContext> options,
             IServiceProvider serviceProvider) : base(options, serviceProvider)

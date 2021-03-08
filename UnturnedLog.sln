@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnturnedLog", "UnturnedLog.csproj", "{48F3262B-CA6C-417D-98C9-0B4CA625C97A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnturnedLog", "UnturnedLog.csproj", "{48F3262B-CA6C-417D-98C9-0B4CA625C97A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AF349DE9-E703-4782-8B3E-58A0ECF9EE6E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

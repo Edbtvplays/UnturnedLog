@@ -11,12 +11,12 @@
     <AssemblyName>Edbtvplays.UnturnedLog.Unturned</AssemblyName>
     <LangVersion>8</LangVersion>
     <Description>A library to Log Information inside a Mysql Database</Description>
-    <PackageReleaseNotes>Updated Openmod Version</PackageReleaseNotes>
+    <PackageReleaseNotes>Added new Events, Changed Database structure. Cleanup</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/Edbtvplays/UnturnedLog</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
     <PackageProjectUrl>https://github.com/Edbtvplays/UnturnedLog</PackageProjectUrl>
     <Copyright>Copyright © 2020 Edbtvplays</Copyright>
-    <Version>1.2.2</Version>
+    <Version>1.3.0</Version>
     <Authors>Edbtvplays</Authors>
   </PropertyGroup>
     
@@ -26,9 +26,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="OpenMod.EntityFrameworkCore" Version="3.0.17" />
+    <PackageReference Include="OpenMod.EntityFrameworkCore" Version="3.0.22" />
     <PackageReference Include="OpenMod.UnityEngine.Redist" Version="2019.4.10" />
-    <PackageReference Include="OpenMod.Unturned" Version="3.0.17" />
+    <PackageReference Include="OpenMod.Unturned" Version="3.0.22" />
     <PackageReference Include="Legacy2CPSWorkaround" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
