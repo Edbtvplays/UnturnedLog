@@ -35,9 +35,10 @@ namespace Edbtvplays.UnturnedLog
         // Initializing the Class
         public UserEventsListener(IUnturnedLogRepository UnturnedLogRepository, IConfiguration configuration)
         {
+            m_UnturnedLogRepository = UnturnedLogRepository;
+            m_Configuration = configuration;
 
-        m_UnturnedLogRepository = UnturnedLogRepository;
-        m_Configuration = configuration;
+            Subscribe();
         }
 
 
@@ -161,11 +162,11 @@ namespace Edbtvplays.UnturnedLog
 
             var instigatorplayer = await m_UnturnedLogRepository.FindPlayerAsync(instigator.ToString(), UserSearchMode.FindById);
 
+            // TODO: Fix Player Kill for Suicide and to Put the killer in the Player
 
             if (instigatorplayer != null) // If the event instigator for the Death event, is a player. 
             {
-                var EventDataKill = EventDatabase.BuildEventData(instigatorplayer, "Player Kill", "Player: Unknown", server);
-
+                var EventDataKill = EventDatabase.BuildEventData(instigatorplayer, "Player Kill", "Player: " + instigatorplayer, server);
                 await m_UnturnedLogRepository.AddPlayerEventAsync(EventDataKill);
             }
         }
@@ -202,20 +203,20 @@ namespace Edbtvplays.UnturnedLog
 
             if (Event == EPlayerStat.KILLS_ANIMALS)
             {
-                var PlayerEvent = EventDatabase.BuildEventData(Eventplayer, "Killed Animal", "Type: Unknown", server);
+                var PlayerEvent = EventDatabase.BuildEventData(Eventplayer, "Killed Animal", " ", server);
                 await m_UnturnedLogRepository.AddPlayerEventAsync(PlayerEvent);
 
             } 
             else if (Event == EPlayerStat.KILLS_ZOMBIES_NORMAL)
             {
 
-                var PlayerEvent = EventDatabase.BuildEventData(Eventplayer, "Killed Zombie", "Type: Normal", server);
+                var PlayerEvent = EventDatabase.BuildEventData(Eventplayer, "Killed Zombie", " ", server);
                 await m_UnturnedLogRepository.AddPlayerEventAsync(PlayerEvent);
             }
             else if (Event == EPlayerStat.HEADSHOTS)
             {
 
-                var PlayerEvent = EventDatabase.BuildEventData(Eventplayer, "Headshot", "", server);
+                var PlayerEvent = EventDatabase.BuildEventData(Eventplayer, "Player Headshot", " ", server);
                 await m_UnturnedLogRepository.AddPlayerEventAsync(PlayerEvent);
             }
 
@@ -230,7 +231,8 @@ namespace Edbtvplays.UnturnedLog
             var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
                 await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
-            var Eventpunnished = EventDatabase.BuildEventData(pData, @event.Name, @event.Reason + @event.Instigator, server);
+            // TODO: Need to fix the Reason and Instigator if executed by console. Check if Instigator = 0 and Reason = 0.
+            var Eventpunnished = EventDatabase.BuildEventData(pData, "Player Banned", "Reason: " + @event.Reason + " Banned By: " + @event.Instigator, server);
 
             await m_UnturnedLogRepository.AddPlayerEventAsync(Eventpunnished);
 
@@ -277,16 +279,42 @@ namespace Edbtvplays.UnturnedLog
             return data;
         }
 
-        public async void ResourceKill(SDG.Unturned.Player player, ResourceAsset asset)
+
+        public void Subscribe()
+        {
+            UnturnedPatches.OnResourceKill += Events_OnResourceKill;
+            UnturnedPatches.OnresourceDamagedEvent += Events_OnResourceDamaged;
+        }
+
+        // Unsubscribes to the Event
+        public void UnSubscribe()
+        {
+            UnturnedPatches.OnResourceKill -= Events_OnResourceKill;
+            UnturnedPatches.OnresourceDamagedEvent -= Events_OnResourceDamaged;
+        }
+
+        public async void Events_OnResourceKill(SDG.Unturned.Player player, ResourceAsset asset)
         {
             var instigatorplayer = await m_UnturnedLogRepository.FindPlayerAsync(player.ToString(), UserSearchMode.FindById);
             var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
              await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
-            var EventTreeCut = EventDatabase.BuildEventData(instigatorplayer, "Player Kill", "Player: Unknown", server);
+            var EventTreeCut = EventDatabase.BuildEventData(instigatorplayer, "Tree Cut", " ", server);
 
             await m_UnturnedLogRepository.AddPlayerEventAsync(EventTreeCut);
         }
+
+        public async void Events_OnResourceDamaged(SDG.Unturned.Player player, SDG.Unturned.ResourceSpawnpoint asset)
+        {
+            var instigatorplayer = await m_UnturnedLogRepository.FindPlayerAsync(player.ToString(), UserSearchMode.FindById);
+            var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
+             await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
+
+            var EventTreeCut = EventDatabase.BuildEventData(instigatorplayer, "Harvested Node", " ", server);
+
+            await m_UnturnedLogRepository.AddPlayerEventAsync(EventTreeCut);
+        }
+
     }
 
     class EventDatabase
@@ -322,7 +350,8 @@ namespace Edbtvplays.UnturnedLog
                 EventData = edata,
                 ServerId = server.Id,
                 Player = player,
-                Server = server
+                Server = server,
+                EventTime = DateTime.UtcNow
             };
         }
     }
@@ -330,51 +359,6 @@ namespace Edbtvplays.UnturnedLog
     // Harmony patch class for some eventst hat are not avalible in the base api. Such as nodes cut down trees mind etc... 
     public class UnturnedPatches
     {
-
-        private readonly IUnturnedLogRepository m_UnturnedLogRepository;
-
-
-        public UnturnedPatches(IUnturnedLogRepository UnturnedLogRepository)
-        {
-            m_UnturnedLogRepository = UnturnedLogRepository;
-        }
-
-        // Subscribes to the Event
-        public  void Subscribe()
-        {
-            OnResourceKill += Events_OnResourceKill;
-            OnresourceDamagedEvent += Events_OnResourceDamaged;
-        }
-
-        // Unsubscribes to the Event
-        public void UnSubscribe()
-        {
-            OnResourceKill -= Events_OnResourceKill;
-            OnresourceDamagedEvent -= Events_OnResourceDamaged;
-        }
-
-        public async void Events_OnResourceKill(SDG.Unturned.Player player, ResourceAsset asset) 
-        {
-            var instigatorplayer = await m_UnturnedLogRepository.FindPlayerAsync(player.ToString(), UserSearchMode.FindById);
-            var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
-             await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
-
-            var EventTreeCut = EventDatabase.BuildEventData(instigatorplayer, "Tree Cut", "", server);
-
-            await m_UnturnedLogRepository.AddPlayerEventAsync(EventTreeCut);
-        }
-
-        public async void Events_OnResourceDamaged(SDG.Unturned.Player player, SDG.Unturned.ResourceSpawnpoint asset)
-        {
-            var instigatorplayer = await m_UnturnedLogRepository.FindPlayerAsync(player.ToString(), UserSearchMode.FindById);
-            var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
-             await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
-
-            var EventTreeCut = EventDatabase.BuildEventData(instigatorplayer, "Harvested Node", "", server);
-
-            await m_UnturnedLogRepository.AddPlayerEventAsync(EventTreeCut);
-        }
-
 
         public delegate void ResourceKill(SDG.Unturned.Player player, ResourceAsset asset);
 
@@ -388,7 +372,7 @@ namespace Edbtvplays.UnturnedLog
         private class Patches
         {
             [HarmonyPatch(typeof(PlayerQuests), "trackTreeKill")]
-            [HarmonyPrefix]
+            [HarmonyPostfix]
             private static void TrackResourceKill(PlayerQuests __instance, Guid treeGuid)
             {
                 // You can get the resource asset from the guid

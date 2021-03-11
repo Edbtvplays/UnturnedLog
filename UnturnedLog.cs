@@ -28,14 +28,13 @@ namespace UnturnedLog
         private readonly ILogger<UnturnedLog> m_Logger;
         private readonly UnturnedLogDbContext m_DbContext;
         private readonly IUnturnedLogRepository m_UnturnedLogRepository;
-        private readonly UnturnedPatches m_UnturnedPatches;
 
 
         public List<IWebSocketConnection> wSockets = new List<IWebSocketConnection>();
 
 
         public UnturnedLog(IConfiguration configuration, IStringLocalizer stringLocalizer, ILogger<UnturnedLog> logger, UnturnedLogDbContext dbcontext, IUnturnedLogRepository unturnedLogRepository,
-            IServiceProvider serviceProvider, UnturnedPatches unturnedpatches) : base(serviceProvider)
+            IServiceProvider serviceProvider) : base(serviceProvider)
 
         {
             m_Configuration = configuration;
@@ -43,7 +42,6 @@ namespace UnturnedLog
             m_Logger = logger;
             m_DbContext = dbcontext;
             m_UnturnedLogRepository = unturnedLogRepository;
-            m_UnturnedPatches = unturnedpatches;
         }
 
         protected override async UniTask OnLoadAsync()
@@ -55,16 +53,12 @@ namespace UnturnedLog
 
             await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
-            m_UnturnedPatches.Subscribe();
-
             await UniTask.SwitchToThreadPool();
         }
 
         protected override UniTask OnUnloadAsync()
         {
             m_Logger.LogInformation("UnturnedLog for Unturned by Edbtvplays was unloaded correctly");
-
-            m_UnturnedPatches.UnSubscribe();
 
             return UniTask.CompletedTask;
         }

@@ -18,7 +18,7 @@ namespace Edbtvplays.UnturnedLog.Unturned.API.Classes
         [Required] public int ServerId { get; set; }
 
         [Timestamp]
-        public byte[] EventTime { get; set; }
+        public DateTime EventTime { get; set; }
 
         public virtual PlayerData Player { get; set; }
         public virtual Server Server { get; set; }
