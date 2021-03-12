@@ -18,7 +18,7 @@ using SDG.Unturned;
 
 namespace Edbtvplays.UnturnedLog.Unturned.Database
 {
-    [ServiceImplementation(Lifetime = ServiceLifetime.Scoped, Priority = Priority.Normal)]
+    [PluginServiceImplementation(Lifetime = ServiceLifetime.Singleton, Priority = Priority.Lowest)]
     public class UnturnedLogRepositoryServiceImplementation : IUnturnedLogRepository
     {
         private readonly UnturnedLogDbContext m_DbContext;

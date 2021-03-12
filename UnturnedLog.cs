@@ -13,6 +13,8 @@ using Edbtvplays.UnturnedLog.Unturned.API.Services;
 using Fleck;
 using System.Collections.Generic;
 using Edbtvplays.UnturnedLog;
+using OpenMod.API.Users;
+using Steamworks;
 
 [assembly: PluginMetadata("Edbtvplays.UnturnedLog", Author = "Edbtvplays",
     DisplayName = "Unturned Log",
@@ -28,9 +30,6 @@ namespace UnturnedLog
         private readonly ILogger<UnturnedLog> m_Logger;
         private readonly UnturnedLogDbContext m_DbContext;
         private readonly IUnturnedLogRepository m_UnturnedLogRepository;
-
-
-        public List<IWebSocketConnection> wSockets = new List<IWebSocketConnection>();
 
 
         public UnturnedLog(IConfiguration configuration, IStringLocalizer stringLocalizer, ILogger<UnturnedLog> logger, UnturnedLogDbContext dbcontext, IUnturnedLogRepository unturnedLogRepository,
@@ -53,15 +52,44 @@ namespace UnturnedLog
 
             await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
+            Subscribe();
+
             await UniTask.SwitchToThreadPool();
         }
 
         protected override UniTask OnUnloadAsync()
         {
+            UnSubscribe();
+
             m_Logger.LogInformation("UnturnedLog for Unturned by Edbtvplays was unloaded correctly");
+
+           
 
             return UniTask.CompletedTask;
         }
+
+        public void Subscribe()
+        {
+            UnturnedPatches.OnResourceKill += Events_OnResourceKill;
+        }
+
+        // Unsubscribes to the Event
+        public void UnSubscribe()
+        {
+            UnturnedPatches.OnResourceKill -= Events_OnResourceKill;
+        }
+
+        public async void Events_OnResourceKill(CSteamID player, ResourceAsset asset)
+        {
+            var instigatorplayer = await m_UnturnedLogRepository.FindPlayerAsync(player.ToString(), UserSearchMode.FindById);
+            var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
+             await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
+
+            var EventTreeCut = EventDatabase.BuildEventData(instigatorplayer, "Resource harvested", " ", server);
+
+            await m_UnturnedLogRepository.AddPlayerEventAsync(EventTreeCut);
+        }
+
 
 
         // Previous abandoned implementation for adding to a database, found to be to cluncky and way to compliments. 

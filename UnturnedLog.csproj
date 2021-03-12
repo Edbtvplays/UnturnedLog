@@ -11,12 +11,12 @@
     <AssemblyName>Edbtvplays.UnturnedLog.Unturned</AssemblyName>
     <LangVersion>8</LangVersion>
     <Description>A library to Log Information inside a Mysql Database</Description>
-    <PackageReleaseNotes>Added new Events, Changed Database structure. Cleanup</PackageReleaseNotes>
+    <PackageReleaseNotes>Moved Hook code to main plugin class.</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/Edbtvplays/UnturnedLog</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
     <PackageProjectUrl>https://github.com/Edbtvplays/UnturnedLog</PackageProjectUrl>
     <Copyright>Copyright © 2020 Edbtvplays</Copyright>
-    <Version>1.6</Version>
+    <Version>1.9</Version>
     <Authors>Edbtvplays</Authors>
   </PropertyGroup>
     
