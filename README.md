@@ -1,6 +1,8 @@
 # UnturnedLog
 UnturnedLog is a Unturned Player statistics plugin for the Openmod Unturned Plugin Framework that works over multiple servers symaltaneously recording data inside a MYSQL Database. It caputres basic user information and Unturned Player events with the time they executed them for data harvesting and statistics.
 
+This project was originally made for my Computer Science Coursework in 2021.
+
 ## Database Stored Data 
 
 ### Players Table
