@@ -165,7 +165,7 @@ namespace Edbtvplays.UnturnedLog
 
             if (instigatorplayer != null) // If the event instigator for the Death event, is a player. 
             {
-                var EventDataKill = EventDatabase.BuildEventData(instigatorplayer, "Player Kill", "Player: " + instigatorplayer, server);
+                var EventDataKill = EventDatabase.BuildEventData(instigatorplayer, "Player Kill", "Player: " + instigatorplayer.Id, server);
                 await m_UnturnedLogRepository.AddPlayerEventAsync(EventDataKill);
             }
 
