@@ -24,13 +24,14 @@ Note: You need a Steam Web API Key in order to get any data within the ProfilePi
 - Player Steam 64 ID (PlayerId)
 - Event type (EventType) [The plugin captures: Kills, Deaths, Suicides, Connections, Dissconnections, Bans, Zombie Kills, Mega Zombie Kills, Chat Messages, Resource Harvested, Fish Caught, Plant Picked, Buildables Placed and Player Teleports]
 - Event Data (EventData) [Any Information that is associated with the above event is stored here]
-- Server Executred on (ServerId) 
+- Server Executed on (ServerId) 
 - Time Executed (EventTime)
 
 ### Servers Table 
 - Server entry ID (Id)
 - Local Instance Name (Instance)
 - Server Public Name (Name)
+- Server IP (IP) [This currently has to be manually entered into the DB, Optional and the plugin will work without it mainly for the web portion of the plugin.]
 
 ## Install 
 
