@@ -1,1 +1,0 @@
-timestamp_format: "{Span.Days}d {Span.Hours}h {Span.Minutes}m {Span.Seconds}s {Span.Milliseconds}ms"
