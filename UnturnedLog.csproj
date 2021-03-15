@@ -11,12 +11,12 @@
     <AssemblyName>Edbtvplays.UnturnedLog.Unturned</AssemblyName>
     <LangVersion>8</LangVersion>
     <Description>A Unturned Openmod Plugin for recording Player Statistics over multiple servers on a MYSQL Database.</Description>
-    <PackageReleaseNotes>Fixed bug were killing not displaying the killer in the player events database.</PackageReleaseNotes>
+    <PackageReleaseNotes>Changed timezone</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/Edbtvplays/UnturnedLog</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
     <PackageProjectUrl>https://github.com/Edbtvplays/UnturnedLog</PackageProjectUrl>
     <Copyright>Copyright © 2020 Edbtvplays</Copyright>
-    <Version>2.0</Version>
+    <Version>2.1</Version>
     <Authors>Edbtvplays</Authors>
   </PropertyGroup>
     
