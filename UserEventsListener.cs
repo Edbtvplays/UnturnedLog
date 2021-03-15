@@ -359,7 +359,7 @@ namespace Edbtvplays.UnturnedLog
                 ServerId = server.Id,
                 Player = player,
                 Server = server,
-                EventTime = DateTime.UtcNow
+                EventTime = DateTime.Now
             };
         }
     }
