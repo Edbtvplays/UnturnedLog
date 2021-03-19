@@ -89,29 +89,5 @@ namespace UnturnedLog
 
             await m_UnturnedLogRepository.AddPlayerEventAsync(EventTreeCut);
         }
-
-
-
-        // Previous abandoned implementation for adding to a database, found to be to cluncky and way to compliments. 
-
-        //private async UniTask checkTPS()
-        //{
-        //    while (IsComponentAlive)
-        //    {
-        //        var server = await m_playerinfolib.GetCurrentServerAsync() ??
-        //                     await m_playerinfolib.CheckAndRegisterCurrentServerAsync();
-
-        //        int tps = Provider.debugTPS;
-        //        m_DbContext.TPS.Add(new TPS
-        //        {
-        //            Value = tps,
-        //            ServerId = server.Id,
-        //            Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
-        //        });
-
-        //        await m_DbContext.SaveChangesAsync();
-        //        await UniTask.Delay(2000);
-        //    }
-        //}
     }
 }

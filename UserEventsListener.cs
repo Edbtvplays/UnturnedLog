@@ -273,6 +273,8 @@ namespace Edbtvplays.UnturnedLog
 
             // Gets current Player
             var pData = await m_UnturnedLogRepository.FindPlayerAsync(player.ToString(), UserSearchMode.FindById);
+
+            // Gets the current server
             var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
                 await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
@@ -288,17 +290,25 @@ namespace Edbtvplays.UnturnedLog
         // Gets player profile picture 
         private async Task<string> GetProfilePictureHashAsync(CSteamID user)
         {
+            // Gets the Steam API Key from the configuration. 
             var apiKey = m_Configuration["steamWebApiKey"];
+
+            // Check if its empty and if so return
             if (string.IsNullOrEmpty(apiKey))
                 return "";
 
+            // Creates new web client. 
             using var web = new WebClient();
+
+            // Gets the string using the steam API where the id is the users steam api aswell as using the key 
             var result =
                 await web.DownloadStringTaskAsync(
                     $"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key={apiKey}&steamids={user.m_SteamID}");
 
+            // Deserializes the json return.
             var deserialized = JsonConvert.DeserializeObject<PlayerSummaries>(result);
 
+            // Return the response making it into a avatar hash, which is a industry standard way of storing photo ids stored remoteley by steam. 
             return deserialized.response.players
                        .FirstOrDefault(k => k.steamid.Equals(user.ToString(), StringComparison.Ordinal))?.avatarhash ??
                    "";
@@ -308,19 +318,31 @@ namespace Edbtvplays.UnturnedLog
         // Gets players steam group
         private static async Task<string> GetSteamGroupNameAsync(CSteamID groupId)
         {
+            // Creates a new web client 
             using var web = new WebClient();
+
+            // Gets the String from a api using the Group id, returned in XML form. 
             var result =
                 await web.DownloadStringTaskAsync("http://steamcommunity.com/gid/" + groupId +
                                                   "/memberslistxml?xml=1");
-
+            // If There is no group name in the return 
             if (!result.Contains("<groupName>") || !result.Contains("</groupName>")) return "";
 
+            // Sets the Start to the begining Group name tag which is the opening to get the name.
             var start = result.IndexOf("<groupName>", 0, StringComparison.Ordinal) + "<groupName>".Length;
+
+            // Sets the end to the eng of the group name tag. 
             var end = result.IndexOf("</groupName>", start, StringComparison.Ordinal);
 
+            // Gets the data by spliting the string between the start and the end. 
             var data = result.Substring(start, end - start);
+            // Removes white space. 
             data = data.Trim();
+
+            // Removes the brackests around it 
             data = data.Replace("<![CDATA[", "").Replace("]]>", "");
+
+            // Returns Data.
             return data;
         }
     }
