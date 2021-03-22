@@ -20,13 +20,12 @@ using Edbtvplays.UnturnedLog.Unturned.API.Classes;
 using Edbtvplays.UnturnedLog.Unturned.API.Classes.SteamWebApiClasses;
 using Edbtvplays.UnturnedLog.Unturned.API.Services;
 using Steamworks;
-using UnityEngine;
-using OpenMod.Unturned.Players;
 using OpenMod.Unturned.Players.Movement.Events;
 
 namespace Edbtvplays.UnturnedLog
 {   
 
+    // Class user event listener inherits Openmods Eventlistener with the paparementers of the events we wish to use. 
     public class UserEventsListener : IEventListener<UnturnedPlayerConnectedEvent>, IEventListener<UnturnedPlayerDisconnectedEvent>, IEventListener<UnturnedPlayerDeathEvent>, IEventListener<UnturnedPlayerChattingEvent>, IEventListener<UnturnedPlayerBannedEvent>, IEventListener<UnturnedPlayerStatIncrementedEvent>, IEventListener<UnturnedPlayerTeleportingEvent>
     {
         private readonly IUnturnedLogRepository m_UnturnedLogRepository;
@@ -36,6 +35,7 @@ namespace Edbtvplays.UnturnedLog
         // Initializing the Class
         public UserEventsListener(IUnturnedLogRepository UnturnedLogRepository, IConfiguration configuration)
         {
+            // Uses the Repository for the plugin implementation aswell as the configuration file. 
             m_UnturnedLogRepository = UnturnedLogRepository;
             m_Configuration = configuration;
         }
@@ -48,30 +48,42 @@ namespace Edbtvplays.UnturnedLog
             var playerId = player.SteamPlayer.playerID;
             var steamId = player.SteamId;
 
-            // Getting Steam Group information
+            // Getting Steam Information
             var pfpHash = await GetProfilePictureHashAsync(steamId);
             var groupName = await GetSteamGroupNameAsync(playerId.group);
+
+            // Getting the hardware ID
             var hwid = string.Join("", playerId.hwid);
+
+            // Retrieving the playuers IP
             if (!player.SteamPlayer.transportConnection.TryGetIPv4Address(out var ip))
-                ip = uint.MinValue;
+                ip = uint.MinValue; // Changes the IP into a storable value 
+            
             // Quest Status
             var questGroupId = player.Player.quests.groupID.m_SteamID;
 
+            // Find player using there steam ID
             var pData = await m_UnturnedLogRepository.FindPlayerAsync(steamId.ToString(), UserSearchMode.FindById); // returns user in database
+
+            // Finds the current server and if it doesnt exsist register current server. 
             var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
                          await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
             if (pData == null) // If user does not exsist in database. 
             {
+
+                // Costruct the new user object using build playerdata 
                 pData = EventDatabase.BuildPlayerData(steamId.m_SteamID, player.SteamPlayer.playerID.characterName,
                     playerId.playerName, hwid, ip,
                     pfpHash, questGroupId, playerId.group.m_SteamID, groupName, 0, 0,
                     DateTime.Now, server);
 
+                // which is then added to the database. 
                 await m_UnturnedLogRepository.AddPlayerDataAsync(pData);
             }
             else // If user does exsist in database. 
-            {
+            {   
+                // Set the stuff needed in pdata manually overwriting what was in there previously using the datat gathered above. 
                 pData.ProfilePictureHash = pfpHash;
                 pData.CharacterName = player.SteamPlayer.playerID.characterName;
                 pData.Hwid = hwid;
@@ -88,11 +100,14 @@ namespace Edbtvplays.UnturnedLog
                 pData.Server = server;
                 pData.ServerId = server.Id;
 
+                // save changes in the datatabase 
                 await m_UnturnedLogRepository.SaveChangesAsync();
             }
-
+                
+            // Constructs a connected event 
             var Eventdisconnected = EventDatabase.BuildEventData(pData, "Connected", "", server);
 
+            // Adds event to the database. 
             await m_UnturnedLogRepository.AddPlayerEventAsync(Eventdisconnected);
         }
 
@@ -102,17 +117,26 @@ namespace Edbtvplays.UnturnedLog
             var player = @event.Player;
             var playerId = player.SteamPlayer.playerID;
             var steamId = player.SteamId;
+
+            // Getting Steam Information
             var pfpHash = await GetProfilePictureHashAsync(steamId);
             var groupName = await GetSteamGroupNameAsync(playerId.group);
-            var hwid = string.Join("", playerId.hwid);
-            if (!player.SteamPlayer.transportConnection.TryGetIPv4Address(out var ip))
-                ip = uint.MinValue;
 
+            // Getting the Hardware ID
+            var hwid = string.Join("", playerId.hwid);
+
+            // Trying to get the IPV4 Address
+            if (!player.SteamPlayer.transportConnection.TryGetIPv4Address(out var ip))
+                ip = uint.MinValue; // turns the IP into a storeable value
+
+            // Searches database using the steam ID 
             var pData = await m_UnturnedLogRepository.FindPlayerAsync(player.SteamId.ToString(), UserSearchMode.FindById);
+
+            // Gets the current server
             var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
                          await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
-
+            // If player isnt in the players table
             if (pData == null)
             {
                 pData = EventDatabase.BuildPlayerData(steamId.m_SteamID, player.SteamPlayer.playerID.characterName,
@@ -123,8 +147,10 @@ namespace Edbtvplays.UnturnedLog
                 await m_UnturnedLogRepository.AddPlayerDataAsync(pData);
 
             }
+            // If player is in the player table 
             else
             {
+                // Overwrite values in the object
                 pData.ProfilePictureHash = pfpHash;
                 pData.LastQuestGroupId = player.Player.quests.groupID.m_SteamID;
                 pData.SteamGroup = playerId.group.m_SteamID;
@@ -132,11 +158,14 @@ namespace Edbtvplays.UnturnedLog
                 pData.SteamName = playerId.playerName;
                 pData.TotalPlaytime += DateTime.Now.Subtract(pData.LastLoginGlobal).TotalSeconds;
 
+                // Save changes to the database.
                 await m_UnturnedLogRepository.SaveChangesAsync();
             }
 
+            // constructs a disconnected event
             var Eventdisconnected = EventDatabase.BuildEventData(pData, "Disconnected", "", server);
 
+            // saves changes to the database
             await m_UnturnedLogRepository.AddPlayerEventAsync(Eventdisconnected);
         }
 
@@ -149,23 +178,32 @@ namespace Edbtvplays.UnturnedLog
 
             // Gets current Player
             var player = await m_UnturnedLogRepository.FindPlayerAsync(playerwhodied.SteamId.ToString(), UserSearchMode.FindById);
+
+            // Gets current server
             var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
                          await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
 
+            // Constructs EventData object for the death
             var EventDataDeath = EventDatabase.BuildEventData(player, "Death", "Reason: " + @event.DeathCause, server);
 
+            // Adds Event data above to the Database. 
             await m_UnturnedLogRepository.AddPlayerEventAsync(EventDataDeath);
 
-          
+            // Gets the instigator from the Event to work out if it was a person that killed them to add a kill to that person.
             var instigator = @event.Instigator;
 
+            // Search the database using the instigator to see if its a valid user
             var instigatorplayer = await m_UnturnedLogRepository.FindPlayerAsync(instigator.ToString(), UserSearchMode.FindById);
 
-
+            // If it doesnt return null we know it was a player who killed the person which triggered the event. 
             if (instigatorplayer != null) // If the event instigator for the Death event, is a player. 
             {
+
+                // construct Event data for player kill 
                 var EventDataKill = EventDatabase.BuildEventData(instigatorplayer, "Player Kill", "Player: " + instigatorplayer.Id, server);
+
+                // Adds event data to the database
                 await m_UnturnedLogRepository.AddPlayerEventAsync(EventDataKill);
             }
 
@@ -177,18 +215,21 @@ namespace Edbtvplays.UnturnedLog
             var eventplayer = @event.Player;
 
             // Gets current Player
-
             var player = await m_UnturnedLogRepository.FindPlayerAsync(eventplayer.SteamId.ToString(), UserSearchMode.FindById);
+
+            // Gets current server
             var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
                          await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
+            // construct Event data for chat message setting the content as the chat message itself
             var EventDataDeath = EventDatabase.BuildEventData(player, "Chat Message", "Content: " + @event.Message, server);
 
+            // Adds event data to the database. 
             await m_UnturnedLogRepository.AddPlayerEventAsync(EventDataDeath);
 
-            // Set the stuff to be saved into the pdata object to be saved into the database Only stuff that is modified here needs to be set
         }
 
+        // When a player teleports
         public async Task HandleEventAsync(object sender, UnturnedPlayerTeleportingEvent @event)
         {
             var eventplayer = @event.Player;
@@ -196,27 +237,34 @@ namespace Edbtvplays.UnturnedLog
             // Gets current Player
 
             var player = await m_UnturnedLogRepository.FindPlayerAsync(eventplayer.SteamId.ToString(), UserSearchMode.FindById);
+            
+            // Gets the current server 
             var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
                          await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
+            // Constructs Event Data 
             var EventDataDeath = EventDatabase.BuildEventData(player, "Teleported", " ", server);
 
+            // Saves Event Data
             await m_UnturnedLogRepository.AddPlayerEventAsync(EventDataDeath);
-
-            // Set the stuff to be saved into the pdata object to be saved into the database Only stuff that is modified here needs to be set
         }
 
 
+        // When a unturned player statistic increments.
         public async Task HandleEventAsync(object sender, UnturnedPlayerStatIncrementedEvent @event)
         {
             var player = @event.Player;
 
             var Event = @event.Stat;
 
+            // Gets the player 
             var Eventplayer = await m_UnturnedLogRepository.FindPlayerAsync(player.SteamId.ToString(), UserSearchMode.FindById);
+
+            // Gets the server
             var server = await m_UnturnedLogRepository.GetCurrentServerAsync() ??
                          await m_UnturnedLogRepository.CheckAndRegisterCurrentServerAsync();
 
+            // If the stat incremented was Kills Animals ETC... construct a event Data for that then add it to the database. 
             if (Event == EPlayerStat.KILLS_ANIMALS)
             {
                 var PlayerEvent = EventDatabase.BuildEventData(Eventplayer, "Killed Animal", " ", server);
@@ -267,6 +315,7 @@ namespace Edbtvplays.UnturnedLog
             }
         }
 
+        // When the player is banned
         public async Task HandleEventAsync(object sender, UnturnedPlayerBannedEvent @event)
         {
             var player = @event.BannedPlayer;
@@ -347,12 +396,14 @@ namespace Edbtvplays.UnturnedLog
         }
     }
 
+    // Class used for constructing objects
     class EventDatabase
     {
         public static PlayerData BuildPlayerData(ulong steamId, string characterName, string steamName, string hwid, uint ip,
             string profileHash, ulong questGroup, ulong steamGroup, string steamGroupName, double totalPlaytime, int Deaths,
             DateTime lastLogin, Server server)
         {
+            // constructs the player data object using the data parsed into the function.
             return new PlayerData
             {
                 Id = steamId,
@@ -366,13 +417,14 @@ namespace Edbtvplays.UnturnedLog
                 SteamGroupName = steamGroupName,
                 TotalPlaytime = totalPlaytime,
                 LastLoginGlobal = lastLogin,
-                ServerId = server.Id, // Sets server Id from the returned server object 
+                ServerId = server.Id, 
                 Server = server
             };
         }
 
         public static PlayerEvents BuildEventData(PlayerData player, string etype, string edata, Server server)
         {
+            // constructs the plauer events object using the data parsed into the function.
             return new PlayerEvents
             {
                 PlayerId = player.Id,
